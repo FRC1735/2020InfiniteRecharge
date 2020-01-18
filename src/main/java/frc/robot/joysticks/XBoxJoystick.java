@@ -50,10 +50,10 @@ public class XBoxJoystick extends AbstractJoystick {
     void initializeKeymap() {
         switch (role) {
         case DRIVER_LEFT:
-            JoystickButton buttonA = new JoystickButton(joystick, Button_A);
+            JoystickButton buttonA = new JoystickButton(joystick, BUTTON_A);
             buttonA.whenPressed(new PrintLogCommand("Hello I am here to destroy your world."));
             
-            JoystickButton buttonRStickPress = new JoystickButton(joystick, R_Stick_Press);
+            JoystickButton buttonRStickPress = new JoystickButton(joystick, R_STICK_PRESS);
             buttonRStickPress.whenPressed(new PrintLogCommand("You are a sad strange little man."));
 
             break;
