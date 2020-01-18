@@ -32,6 +32,12 @@ public class DriveWithJoystick extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (driveLine == null)
+      System.out.println("THE DRIVELINE IS NULL");
+
+    if (joystick == null)
+      System.out.println("THE JOYSTICK IS NULL");  
+
     driveLine.arcadeDrive(joystick.getX(), joystick.getY()); 
   }
 
