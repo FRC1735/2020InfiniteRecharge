@@ -11,7 +11,7 @@ public class XBoxJoystick extends AbstractJoystick {
     private static final int TRIGGER_R = 3;
     private static final int R_AXIS_X = 4;
     private static final int R_AXIS_Y = 5;
-    private static final int Button_A = 1;
+    private static final int BUTTON_A = 1;
     private static final int BUTTON_B = 2;
     private static final int BUTTON_X = 3;
     private static final int BUTTON_Y = 4;
