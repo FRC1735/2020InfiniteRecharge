@@ -11,18 +11,16 @@ public class XBoxJoystick extends AbstractJoystick {
     private static final int Trigger_R = 3;
     private static final int R_AXIS_X = 4;
     private static final int R_AXIS_Y = 5;
-    private static final int Button_A = 0;
-    private static final int Button_B = 1;
-    private static final int Button_X = 2;
-    private static final int Button_Y = 3;
-    private static final int Bumper_L = 4;
-    private static final int Bumper_R = 5;
-    private static final int Button_Back = 6;
-    private static final int Button_Start = 7;
-    private static final int L_Stick_Press = 8;
-    private static final int R_Stick_Press = 9;
-    // TODO - [D15-29] - define all remaining buttons on this joystick as
-    // named variables, like you see above
+    private static final int Button_A = 1;
+    private static final int Button_B = 2;
+    private static final int Button_X = 3;
+    private static final int Button_Y = 4;
+    private static final int Bumper_L = 5;
+    private static final int Bumper_R = 6;
+    private static final int Button_Back = 7;
+    private static final int Button_Start = 8;
+    private static final int L_Stick_Press = 9;
+    private static final int R_Stick_Press = 10;
 
     public XBoxJoystick(final Joystick joystick, final Role role) {
         super(joystick, role);
@@ -35,23 +33,17 @@ public class XBoxJoystick extends AbstractJoystick {
 
     @Override
     public double getY() {
-        // TODO - [D15-29]
-        //return joystick.getRawAxis(AXIS_Y);
-        return 0;
+        return joystick.getRawAxis(L_AXIS_Y);
     }
 
     @Override
     public double getSwivelStickX() {
-        // TODO - [D15-29]
-        //return joystick.getRawAxis(SWIVEL_X);
-        return 0;
+        return joystick.getRawAxis(R_AXIS_X);
     }
 
     @Override
     public double getSwivelStickY() {
-        // TODO - [D15-29]
-        //return joystick.getRawAxis(SWIVEL_Y);
-        return 0;
+        return joystick.getRawAxis(R_AXIS_Y);
     }
 
     @Override
@@ -60,6 +52,10 @@ public class XBoxJoystick extends AbstractJoystick {
         case DRIVER_LEFT:
             JoystickButton buttonA = new JoystickButton(joystick, Button_A);
             buttonA.whenPressed(new PrintLogCommand("Hello I am here to destroy your world."));
+            
+            JoystickButton buttonRStickPress = new JoystickButton(joystick, R_Stick_Press);
+            buttonRStickPress.whenPressed(new PrintLogCommand("You are a sad strange little man."));
+
             break;
 
             case DRIVER_RIGHT:
