@@ -8,29 +8,37 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.joysticks.AbstractJoystick;
 import frc.robot.subsystems.DriveLine;
 
 public class DriveWithJoystick extends CommandBase {
+  private AbstractJoystick joystick;
+  private DriveLine driveLine;
   /**
    * Creates a new DriveWithJoystick.
    */
-  public DriveWithJoystick(DriveLine driveLine) {
+  public DriveWithJoystick(AbstractJoystick joystick, DriveLine driveLine) {
     addRequirements(driveLine);
+    this.joystick = joystick;
+    this.driveLine = driveLine;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    driveLine.arcadeDrive(joystick.getX(), joystick.getY()); 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    driveLine.stop();
   }
 
   // Returns true when the command should end.
