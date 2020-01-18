@@ -7,20 +7,20 @@ import frc.robot.commands.PrintLogCommand;
 public class XBoxJoystick extends AbstractJoystick {
     private static final int L_AXIS_X = 0;
     private static final int L_AXIS_Y = 1;
-    private static final int Trigger_L = 2;
-    private static final int Trigger_R = 3;
+    private static final int TRIGGER_L = 2;
+    private static final int TRIGGER_R = 3;
     private static final int R_AXIS_X = 4;
     private static final int R_AXIS_Y = 5;
     private static final int Button_A = 1;
-    private static final int Button_B = 2;
-    private static final int Button_X = 3;
-    private static final int Button_Y = 4;
-    private static final int Bumper_L = 5;
-    private static final int Bumper_R = 6;
-    private static final int Button_Back = 7;
-    private static final int Button_Start = 8;
-    private static final int L_Stick_Press = 9;
-    private static final int R_Stick_Press = 10;
+    private static final int BUTTON_B = 2;
+    private static final int BUTTON_X = 3;
+    private static final int BUTTON_Y = 4;
+    private static final int BUMPER_L = 5;
+    private static final int BUMPER_R = 6;
+    private static final int BUTTON_BACK = 7;
+    private static final int BUTTON_START = 8;
+    private static final int L_STICK_PRESS = 9;
+    private static final int R_STICK_PRESS = 10;
 
     public XBoxJoystick(final Joystick joystick, final Role role) {
         super(joystick, role);
