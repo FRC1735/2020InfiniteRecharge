@@ -7,9 +7,13 @@
 
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.joysticks.AbstractJoystick;
@@ -17,7 +21,6 @@ import frc.robot.joysticks.JoystickFactory;
 import frc.robot.joysticks.Role;
 import frc.robot.subsystems.DriveLine;
 import frc.robot.subsystems.ExampleSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -44,6 +47,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     driveLine.setDefaultCommand(driveWithJoystickCommand);
+    //ahrs = new AHRS(SerialPort.Port.kMXP); /* Alternatives:  SPI.Port.kMXP, I2C.Port.kMXP or SerialPort.Port.kUSB */
   }
 
   /**
