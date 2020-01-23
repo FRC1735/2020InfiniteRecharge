@@ -34,8 +34,6 @@ public class DriveWithJoystick extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("driveLine: " + driveLine);
-    System.out.println("joystick: " + joystick);
     driveLine.arcadeDrive(joystick.getX(), joystick.getY());
   }
 
