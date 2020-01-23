@@ -14,11 +14,13 @@ import frc.robot.subsystems.DriveLine;
 public class DriveWithJoystick extends CommandBase {
   private AbstractJoystick joystick;
   private DriveLine driveLine;
+
   /**
    * Creates a new DriveWithJoystick.
    */
   public DriveWithJoystick(AbstractJoystick joystick, DriveLine driveLine) {
     addRequirements(driveLine);
+
     this.joystick = joystick;
     this.driveLine = driveLine;
   }
@@ -32,7 +34,9 @@ public class DriveWithJoystick extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveLine.arcadeDrive(joystick.getX(), joystick.getY()); 
+    System.out.println("driveLine: " + driveLine);
+    System.out.println("joystick: " + joystick);
+    driveLine.arcadeDrive(joystick.getX(), joystick.getY());
   }
 
   // Called once the command ends or is interrupted.
