@@ -10,9 +10,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.joysticks.AbstractJoystick;
 import frc.robot.joysticks.JoystickFactory;
 import frc.robot.joysticks.Role;
+import frc.robot.subsystems.DriveLine;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -23,12 +26,16 @@ import edu.wpi.first.wpilibj2.command.Command;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  private Joystick joystickLeft = new Joystick(0);
+  JoystickFactory joystickFactory = new JoystickFactory();
+  private AbstractJoystick abstractJoystickLeft = joystickFactory.get(joystickLeft, Role.DRIVER_LEFT);
+
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final DriveLine driveLine = new DriveLine();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-
-  private Joystick joystickLeft;
+  private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(abstractJoystickLeft, driveLine);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -36,6 +43,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    driveLine.setDefaultCommand(driveWithJoystickCommand);
   }
 
   /**
@@ -45,9 +53,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    joystickLeft = new Joystick(0);
-    JoystickFactory joystickFactory = new JoystickFactory();
-    joystickFactory.get(joystickLeft, Role.DRIVER_LEFT);
+
   }
 
 
