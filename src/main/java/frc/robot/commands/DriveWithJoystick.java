@@ -16,17 +16,15 @@ import frc.robot.subsystems.DriveLine;
 public class DriveWithJoystick extends CommandBase {
   private AbstractJoystick joystick;
   private DriveLine driveLine;
-  private AHRS gyro;
 
   /**
    * Creates a new DriveWithJoystick.
    */
-  public DriveWithJoystick(AbstractJoystick joystick, DriveLine driveLine, AHRS gyro) {
+  public DriveWithJoystick(AbstractJoystick joystick, DriveLine driveLine) {
     addRequirements(driveLine);
 
     this.joystick = joystick;
     this.driveLine = driveLine;
-    this.gyro = gyro;
   }
 
   // Called when the command is initially scheduled.
@@ -39,7 +37,6 @@ public class DriveWithJoystick extends CommandBase {
   @Override
   public void execute() {
     driveLine.arcadeDrive(joystick.getX(), joystick.getY());
-    System.out.println(gyro.getAngle());
   }
 
   // Called once the command ends or is interrupted.

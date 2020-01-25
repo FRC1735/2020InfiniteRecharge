@@ -39,7 +39,7 @@ public class RobotContainer {
   private final AHRS gyro = new AHRS(SerialPort.Port.kMXP);
  
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-  private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(abstractJoystickLeft, driveLine, gyro);
+  private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(abstractJoystickLeft, driveLine);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
