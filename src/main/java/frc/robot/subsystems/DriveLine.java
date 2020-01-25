@@ -59,6 +59,7 @@ public class DriveLine extends SubsystemBase {
   }
 
   public void arcadeDrive(final double joystickX, final double joystickY) {
+    System.out.println("arcadeDrive: " + joystickX + ", " + joystickY);
     differentialDrive.arcadeDrive(joystickY, joystickX, true);
   }
 
