@@ -7,6 +7,8 @@
 
 package frc.robot.commands;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.joysticks.AbstractJoystick;
 import frc.robot.subsystems.DriveLine;
@@ -14,15 +16,17 @@ import frc.robot.subsystems.DriveLine;
 public class DriveWithJoystick extends CommandBase {
   private AbstractJoystick joystick;
   private DriveLine driveLine;
+  private AHRS gyro;
 
   /**
    * Creates a new DriveWithJoystick.
    */
-  public DriveWithJoystick(AbstractJoystick joystick, DriveLine driveLine) {
+  public DriveWithJoystick(AbstractJoystick joystick, DriveLine driveLine, AHRS gyro) {
     addRequirements(driveLine);
 
     this.joystick = joystick;
     this.driveLine = driveLine;
+    this.gyro = gyro;
   }
 
   // Called when the command is initially scheduled.
@@ -35,6 +39,7 @@ public class DriveWithJoystick extends CommandBase {
   @Override
   public void execute() {
     driveLine.arcadeDrive(joystick.getX(), joystick.getY());
+    System.out.println(gyro.getAngle());
   }
 
   // Called once the command ends or is interrupted.

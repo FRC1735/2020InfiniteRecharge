@@ -36,9 +36,10 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final DriveLine driveLine = new DriveLine();
-
+  private final AHRS gyro = new AHRS(SerialPort.Port.kMXP);
+ 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-  private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(abstractJoystickLeft, driveLine);
+  private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(abstractJoystickLeft, driveLine, gyro);
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -47,7 +48,6 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     driveLine.setDefaultCommand(driveWithJoystickCommand);
-    //ahrs = new AHRS(SerialPort.Port.kMXP); /* Alternatives:  SPI.Port.kMXP, I2C.Port.kMXP or SerialPort.Port.kUSB */
   }
 
   /**
