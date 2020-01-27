@@ -39,7 +39,8 @@ public class DriveWithJoystick extends CommandBase {
   public void execute() {
     SmartDashboard.putNumber("joystick x", joystick.getX());
     SmartDashboard.putNumber("joystick y", joystick.getY());
-    driveLine.arcadeDrive(joystick.getX(), joystick.getY());
+    //  driveLine.arcadeDrive(joystick.getX(), joystick.getY());
+    driveLine.tankDrive(joystick.getSwivelStickX(), joystick.getSwivelStickY());
   }
 
   // Called once the command ends or is interrupted.

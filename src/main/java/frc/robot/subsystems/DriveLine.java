@@ -63,6 +63,10 @@ public class DriveLine extends SubsystemBase {
     differentialDrive.arcadeDrive(joystickY, joystickX, true);
   }
 
+  public void tankDrive(final double joystickAY, final double joystickBY) {
+    differentialDrive.tankDrive(joystickAY, joystickBY);
+  }
+
   public void stop() {
     differentialDrive.stopMotor();
   }
