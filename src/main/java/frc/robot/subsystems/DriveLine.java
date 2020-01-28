@@ -24,12 +24,12 @@ public class DriveLine extends SubsystemBase implements PIDOutput{
   private DifferentialDrive differentialDrive;
   private WPI_VictorSPX leftFollower;
   private WPI_VictorSPX rightFollower;
-  private final AHRS gyro; 
+  public final AHRS gyro; 
   public PIDController turnController;
 
-  private final double kP = 0;
-  private final double kI = 0;
-  private final double kD = 0;
+  private final double kP = 1;
+  private final double kI = 1;
+  private final double kD = 1;
 
   /**
    * Creates a new DriveLine.
@@ -53,9 +53,10 @@ public class DriveLine extends SubsystemBase implements PIDOutput{
 
     turnController = new PIDController(kP, kI, kD, gyro, this);
     turnController.setInputRange(-180.0f, -180.0f);
-    turnController.setOutputRange(-0.45, 0.45);
+    turnController.setOutputRange(-.25, .25);
     turnController.setAbsoluteTolerance(2.0f);
-    turnController.setContinuous();
+    // this is casuing a crash
+    //turnController.setContinuous(true);
   }
 
   @Override
@@ -101,6 +102,7 @@ public class DriveLine extends SubsystemBase implements PIDOutput{
   @Override
   public void pidWrite(double output) 
   {
-    set(ControlMode.PercentOutput, -output, output);
+    System.out.println("output: " + output);
+    set(ControlMode.PercentOutput, output, output);
   }
 }
