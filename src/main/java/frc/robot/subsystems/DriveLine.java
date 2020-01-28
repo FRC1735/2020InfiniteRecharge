@@ -18,13 +18,13 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class DriveLine extends SubsystemBase implements PIDOutput{
+public class DriveLine extends SubsystemBase implements PIDOutput {
   private WPI_TalonSRX leftMotor;
   private WPI_TalonSRX rightMotor;
   private DifferentialDrive differentialDrive;
   private WPI_VictorSPX leftFollower;
   private WPI_VictorSPX rightFollower;
-  public final AHRS gyro; 
+  public final AHRS gyro;
   public PIDController turnController;
 
   private final double kP = 1;
@@ -56,18 +56,18 @@ public class DriveLine extends SubsystemBase implements PIDOutput{
     turnController.setOutputRange(-.25, .25);
     turnController.setAbsoluteTolerance(2.0f);
     // this is casuing a crash
-    //turnController.setContinuous(true);
+    // turnController.setContinuous(true);
   }
 
   @Override
   public void periodic() {
 
   }
-  
+
   public WPI_TalonSRX getLeftMotor() {
     return leftMotor;
   }
-  
+
   public WPI_TalonSRX getRightMotor() {
     return rightMotor;
   }
@@ -81,27 +81,29 @@ public class DriveLine extends SubsystemBase implements PIDOutput{
     differentialDrive.tankDrive(joystickAY, joystickBY);
   }
 
-  public void set(ControlMode mode, double leftValue, double rightValue) 
-  {
+  public void set(ControlMode mode, double leftValue, double rightValue) {
     leftMotor.set(mode, leftValue);
     rightMotor.set(mode, rightValue);
   }
 
-  public void rotateDegrees(double angle) 
-  {
+  public float getYaw() {
+    return gyro.getYaw();
+  }
+
+  public void rotateDegrees(double angle) {
     gyro.reset();
     turnController.reset();
     turnController.setPID(kP, kI, kD);
     turnController.setSetpoint(angle);
     turnController.enable();
-   }
+  }
+
   public void stop() {
     differentialDrive.stopMotor();
   }
 
   @Override
-  public void pidWrite(double output) 
-  {
+  public void pidWrite(double output) {
     System.out.println("output: " + output);
     set(ControlMode.PercentOutput, output, output);
   }
