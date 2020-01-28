@@ -38,7 +38,6 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final DriveLine driveLine = new DriveLine();
-  private final AHRS gyro = new AHRS(SerialPort.Port.kMXP);
  
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(abstractJoystickLeft, driveLine);
@@ -53,7 +52,6 @@ public class RobotContainer {
     driveLine.setDefaultCommand(driveWithJoystickCommand);
 
     intializeSmartDashBoard();
-    gyro.zeroYaw();
   }
 
   /**
