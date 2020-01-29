@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.TurnToAngle;
+import frc.robot.commands.TurnToAnglePID;
 import frc.robot.joysticks.AbstractJoystick;
 import frc.robot.joysticks.JoystickFactory;
 import frc.robot.joysticks.Role;
@@ -39,7 +39,7 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(abstractJoystickLeft, driveLine);
   // private final TurnWithGyro turn90DegreesCommand = new TurnWithGyro(-90, driveLine);
-  private final TurnToAngle turnToAngleCommand = new TurnToAngle(driveLine, 90);
+  private final TurnToAnglePID turnToAngleCommand = new TurnToAnglePID(driveLine, () -> 90);
  
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
