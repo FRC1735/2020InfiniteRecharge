@@ -12,9 +12,9 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.ResetGyro;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.joysticks.AbstractJoystick;
 import frc.robot.joysticks.JoystickFactory;
@@ -40,10 +40,6 @@ public class RobotContainer {
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(abstractJoystickLeft, driveLine);
-  // private final TurnWithGyro turn90DegreesCommand = new TurnWithGyro(-90,
-  // driveLine);
-  // private final TurnToAnglePID turnToAngleCommand = new
-  // TurnToAnglePID(driveLine, () -> 90);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -80,16 +76,15 @@ public class RobotContainer {
     SmartDashboard.putNumber("Turn Angle", 90);
 
     SmartDashboard.putData("Turn",
-        new TurnToAngle(driveLine, 
-        () -> SmartDashboard.getNumber("Turn Angle", 90),
-            () -> SmartDashboard.getNumber("Turn P", 0),
-             () -> SmartDashboard.getNumber("Turn I", 0),
+        new TurnToAngle(driveLine, () -> SmartDashboard.getNumber("Turn Angle", 90),
+            () -> SmartDashboard.getNumber("Turn P", 0), () -> SmartDashboard.getNumber("Turn I", 0),
             () -> SmartDashboard.getNumber("Turn D", 0)));
 
     SmartDashboard.putNumber("Turn P", 0.2);
     SmartDashboard.putNumber("Turn I", 0.1);
     SmartDashboard.putNumber("Turn D", 0.5);
 
-    SmartDashboard.putData("Reset Gyro", new ResetGyro(driveLine));
+    // this is an example and good use case for the "inline command" feature they added this year
+    SmartDashboard.putData("Reset Gyro", new InstantCommand(driveLine::zeroYaw, driveLine));
   }
 }

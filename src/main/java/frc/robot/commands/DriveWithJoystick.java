@@ -37,9 +37,6 @@ public class DriveWithJoystick extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putNumber("joystick x", joystick.getX());
-    SmartDashboard.putNumber("joystick y", joystick.getY());
-    //  driveLine.arcadeDrive(joystick.getX(), joystick.getY());
     driveLine.tankDrive(joystick.getSwivelStickX(), joystick.getSwivelStickY());
   }
 
