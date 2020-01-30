@@ -49,7 +49,7 @@ public class RobotContainer {
     configureButtonBindings();
     driveLine.setDefaultCommand(driveWithJoystickCommand);
 
-    intializeSmartDashBoard();
+    configureSmartDashBoard();
   }
 
   /**
@@ -72,7 +72,7 @@ public class RobotContainer {
     return m_autoCommand;
   }
 
-  private void intializeSmartDashBoard() {
+  private void configureSmartDashBoard() {
     SmartDashboard.putNumber("Turn Angle", 90);
 
     SmartDashboard.putData("Turn",
