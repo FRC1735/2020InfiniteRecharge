@@ -7,6 +7,9 @@
 
 package frc.robot.commands;
 
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.joysticks.AbstractJoystick;
 import frc.robot.subsystems.DriveLine;
@@ -34,7 +37,7 @@ public class DriveWithJoystick extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveLine.arcadeDrive(joystick.getX(), joystick.getY());
+    driveLine.tankDrive(joystick.getSwivelStickX(), joystick.getSwivelStickY());
   }
 
   // Called once the command ends or is interrupted.
