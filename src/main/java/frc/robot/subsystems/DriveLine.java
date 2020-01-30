@@ -12,20 +12,19 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class DriveLine extends SubsystemBase implements PIDOutput {
+public class DriveLine extends SubsystemBase {// implements PIDOutput{
   private WPI_TalonSRX leftMotor;
   private WPI_TalonSRX rightMotor;
   private DifferentialDrive differentialDrive;
   private WPI_VictorSPX leftFollower;
   private WPI_VictorSPX rightFollower;
   public final AHRS gyro;
-  public PIDController turnController;
+  // public PIDController turnController;
 
   private final double kP = 1;
   private final double kI = 1;
@@ -51,17 +50,20 @@ public class DriveLine extends SubsystemBase implements PIDOutput {
     differentialDrive.setExpiration(0.1);
     differentialDrive.setMaxOutput(1.0);
 
-    turnController = new PIDController(kP, kI, kD, gyro, this);
-    turnController.setInputRange(-180.0f, -180.0f);
-    turnController.setOutputRange(-.25, .25);
-    turnController.setAbsoluteTolerance(2.0f);
+    /*
+     * turnController = new PIDController(kP, kI, kD, gyro, this);
+     * turnController.setInputRange(-180.0f, -180.0f);
+     * turnController.setOutputRange(-.25, .25);
+     * turnController.setAbsoluteTolerance(2.0f);
+     */
+
     // this is casuing a crash
     // turnController.setContinuous(true);
   }
 
   @Override
   public void periodic() {
-
+    SmartDashboard.putNumber("gryo.yaw", getYaw());
   }
 
   public WPI_TalonSRX getLeftMotor() {
@@ -86,25 +88,24 @@ public class DriveLine extends SubsystemBase implements PIDOutput {
     rightMotor.set(mode, rightValue);
   }
 
-  public float getYaw() {
-    return gyro.getYaw();
+  public double getYaw() {
+    return Math.IEEEremainder(gyro.getAngle(), 360);
+//    return gyro.getYaw();
   }
 
   public void rotateDegrees(double angle) {
-    gyro.reset();
-    turnController.reset();
-    turnController.setPID(kP, kI, kD);
-    turnController.setSetpoint(angle);
-    turnController.enable();
+    /*
+     * gyro.reset(); turnController.reset(); turnController.setPID(kP, kI, kD);
+     * turnController.setSetpoint(angle); turnController.enable();
+     */
   }
 
   public void stop() {
     differentialDrive.stopMotor();
   }
 
-  @Override
-  public void pidWrite(double output) {
-    System.out.println("output: " + output);
-    set(ControlMode.PercentOutput, output, output);
-  }
+  /*
+   * @Override public void pidWrite(double output) { System.out.println("output: "
+   * + output); set(ControlMode.PercentOutput, output, output); }
+   */
 }

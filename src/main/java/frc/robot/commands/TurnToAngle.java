@@ -7,58 +7,55 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
+import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
+import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.subsystems.DriveLine;
 
-public class TurnToAngle extends CommandBase {
-  DriveLine driveLine;
-  double angle;
-  boolean isFinished = false;
-  boolean inErrorZone = false;
-  int count = 0;
+// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
+// information, see:
+// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
+public class TurnToAngle extends PIDCommand {
+  private int atSetpoint = 0;
 
-  /**
-   * Creates a new TurnToAngle.
-   */
-  public TurnToAngle(DriveLine thatdriveLine, double thatangle) {
-    addRequirements(thatdriveLine);
-    this.driveLine = thatdriveLine;
-    this.angle = thatangle;
-  }
+  public TurnToAngle(final DriveLine driveLine, final DoubleSupplier angle, final DoubleSupplier p,
+      final DoubleSupplier i, final DoubleSupplier d) {
+    super(new PIDController(p.getAsDouble(), i.getAsDouble(), d.getAsDouble()),
+        // This should return the measurement
+        driveLine::getYaw,
+        // This should return the setpoint (can also be a constant)
+        angle,
+        // This uses the output
+        output -> {
+          double clampedOutput = MathUtil.clamp(output, -.3, .3);
+          driveLine.set(ControlMode.PercentOutput, clampedOutput, clampedOutput);
+        });
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    driveLine.rotateDegrees(angle);
-  }
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(driveLine);
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    double error = driveLine.turnController.getError();
-    inErrorZone = Math.abs(error) < 2;
-
-    SmartDashboard.putNumber("error", error);
-    SmartDashboard.putNumber("angle", driveLine.gyro.getYaw());
-
-    if (inErrorZone) {
-      count++;
-      isFinished = count >= 5;
-    } else {
-      count = 0;
-    }
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    driveLine.turnController.disable();
+    // Configure additional PID options by calling `getController` here.
+    getController().enableContinuousInput(-180, 180);
+    getController().setTolerance(2);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isFinished;
+    if (getController().atSetpoint()) {
+      atSetpoint++;
+      if (atSetpoint > 4) {
+        return true;
+      }
+      return false;
+    } else {
+      atSetpoint = 0;
+      return false;
+    }
   }
 }
