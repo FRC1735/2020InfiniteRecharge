@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.TurnToAngle;
+import frc.robot.commands.TurnToRelativeAngle;
 import frc.robot.joysticks.AbstractJoystick;
 import frc.robot.joysticks.JoystickFactory;
 import frc.robot.joysticks.Role;
@@ -76,7 +76,7 @@ public class RobotContainer {
     SmartDashboard.putNumber("Turn Angle", 90);
 
     SmartDashboard.putData("Turn",
-        new TurnToAngle(driveLine, () -> SmartDashboard.getNumber("Turn Angle", 90),
+        new TurnToRelativeAngle(driveLine, () -> SmartDashboard.getNumber("Turn Angle", 90),
             () -> SmartDashboard.getNumber("Turn P", 0), () -> SmartDashboard.getNumber("Turn I", 0),
             () -> SmartDashboard.getNumber("Turn D", 0)));
 

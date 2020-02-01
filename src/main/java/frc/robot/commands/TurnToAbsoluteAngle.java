@@ -20,10 +20,10 @@ import frc.robot.subsystems.DriveLine;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class TurnToAngle extends PIDCommand {
+public class TurnToAbsoluteAngle extends PIDCommand {
   private int atSetpoint = 0;
 
-  public TurnToAngle(final DriveLine driveLine, final DoubleSupplier angle, final DoubleSupplier p,
+  public TurnToAbsoluteAngle(final DriveLine driveLine, final DoubleSupplier angle, final DoubleSupplier p,
       final DoubleSupplier i, final DoubleSupplier d) {
     super(new PIDController(p.getAsDouble(), i.getAsDouble(), d.getAsDouble()),
         // This should return the measurement
@@ -35,6 +35,8 @@ public class TurnToAngle extends PIDCommand {
           double clampedOutput = MathUtil.clamp(output, -.3, .3);
           driveLine.set(ControlMode.PercentOutput, clampedOutput, clampedOutput);
         });
+
+    System.out.println("P: " + p + " I: " + i + " D: " + d);
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(driveLine);

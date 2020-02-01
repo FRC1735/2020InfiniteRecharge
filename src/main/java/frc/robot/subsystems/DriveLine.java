@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
@@ -34,6 +35,9 @@ public class DriveLine extends SubsystemBase {
     leftFollower = new WPI_VictorSPX(3);
     rightFollower = new WPI_VictorSPX(4);
     gyro = new AHRS(SerialPort.Port.kMXP);
+
+    leftMotor.setNeutralMode(NeutralMode.Coast);
+    rightMotor.setNeutralMode(NeutralMode.Coast);
 
     leftFollower.follow(leftMotor);
     rightFollower.follow(rightMotor);
