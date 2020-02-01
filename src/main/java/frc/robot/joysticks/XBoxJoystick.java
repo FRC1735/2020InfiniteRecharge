@@ -11,10 +11,10 @@ public class XBoxJoystick extends AbstractJoystick {
     private static final int TRIGGER_R = 3;
     private static final int R_AXIS_X = 4;
     private static final int R_AXIS_Y = 5;
-    private static final int BUTTON_A = 1;
-    private static final int BUTTON_B = 2;
-    private static final int BUTTON_X = 3;
-    private static final int BUTTON_Y = 4;
+    public static final int BUTTON_A = 1;
+    public static final int BUTTON_B = 2;
+    public static final int BUTTON_X = 3;
+    public static final int BUTTON_Y = 4;
     private static final int BUMPER_L = 5;
     private static final int BUMPER_R = 6;
     private static final int BUTTON_BACK = 7;
@@ -50,12 +50,13 @@ public class XBoxJoystick extends AbstractJoystick {
     void initializeKeymap() {
         switch (role) {
         case DRIVER_LEFT:
+        /*
             JoystickButton buttonA = new JoystickButton(joystick, BUTTON_A);
             buttonA.whenPressed(new PrintLogCommand("Hello I am here to destroy your world."));
             
             JoystickButton buttonRStickPress = new JoystickButton(joystick, R_STICK_PRESS);
             buttonRStickPress.whenPressed(new PrintLogCommand("You are a sad strange little man."));
-
+*/
             break;
 
             case DRIVER_RIGHT:
