@@ -10,20 +10,17 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.TurnToAngle;
 import frc.robot.joysticks.AbstractJoystick;
 import frc.robot.joysticks.JoystickFactory;
 import frc.robot.joysticks.Role;
 import frc.robot.joysticks.XBoxJoystick;
-import frc.robot.subsystems.DriveLine;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Lighting;
+import frc.robot.subsystems.Turret;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -39,11 +36,11 @@ public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final DriveLine driveLine = new DriveLine();
+  // private final DriveLine driveLine = new DriveLine();
   private final Lighting lighting = new Lighting();
-
+  private final Turret turret = new Turret();
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-  private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(abstractJoystickLeft, driveLine);
+  //private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(abstractJoystickLeft, driveLine);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -51,8 +48,8 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    driveLine.setDefaultCommand(driveWithJoystickCommand);
-    
+    //driveLine.setDefaultCommand(driveWithJoystickCommand);
+    turret.setDefaultCommand(newControlTurretWithJoystick(turret, abstractJoystickLeft));
     intializeSmartDashBoard();
   }
 
@@ -63,17 +60,13 @@ public class RobotContainer {
    * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_X)
-        .whenPressed(new InstantCommand(lighting::blue, lighting));
-    
-    new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_Y)
-        .whenPressed(new InstantCommand(lighting::yellow, lighting));
+    new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_X).whenPressed(new InstantCommand(lighting::blue, lighting));
 
-    new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_A)
-        .whenPressed(new InstantCommand(lighting::on, lighting));
+    new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_Y).whenPressed(new InstantCommand(lighting::yellow, lighting));
 
-    new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_B)
-        .whenPressed(new InstantCommand(lighting::off, lighting));
+    new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_A).whenPressed(new InstantCommand(lighting::on, lighting));
+
+    new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_B).whenPressed(new InstantCommand(lighting::off, lighting));
   }
 
   /**
@@ -87,6 +80,7 @@ public class RobotContainer {
   }
 
   private void intializeSmartDashBoard() {
+    /*
     SmartDashboard.putNumber("Turn Angle", 90);
 
     SmartDashboard.putData("Turn",
@@ -98,7 +92,9 @@ public class RobotContainer {
     SmartDashboard.putNumber("Turn I", 0.1);
     SmartDashboard.putNumber("Turn D", 0.5);
 
-    // this is an example and good use case for the "inline command" feature they added this year
+    // this is an example and good use case for the "inline command" feature they
+    // added this year
     SmartDashboard.putData("Reset Gyro", new InstantCommand(driveLine::zeroYaw, driveLine));
+    */
   }
 }
