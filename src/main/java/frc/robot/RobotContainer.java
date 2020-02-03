@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.ControlTurretWithJoystick;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.joysticks.AbstractJoystick;
 import frc.robot.joysticks.JoystickFactory;
@@ -49,7 +50,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     //driveLine.setDefaultCommand(driveWithJoystickCommand);
-    turret.setDefaultCommand(newControlTurretWithJoystick(turret, abstractJoystickLeft));
+    turret.setDefaultCommand(new ControlTurretWithJoystick(turret, abstractJoystickLeft));
     intializeSmartDashBoard();
   }
 
