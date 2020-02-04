@@ -43,6 +43,47 @@ public class LimeLight extends SubsystemBase {
   }
 
   public double getTv() {
+    return tv.getDouble(0);
 
+  }
+
+  public double getTx() {
+    return tx.getDouble(0);
+  }
+
+  public double getTx0() {
+    return tx0.getDouble(0);
+  }
+
+  public double getTx1() {
+    return tx1.getDouble(0);
+  }
+
+  public double getTx2() {
+    return tx2.getDouble(0);
+  }
+
+  public double getTy() {
+    return ty.getDouble(0);
+  }
+
+  public void setLedMode(final int ledMode) {
+    limelight.getEntry("ledMode").setNumber(ledMode);
+  }
+
+  public void setCameraMode(final int cameraMode) {
+    limelight.getEntry("camMode").setNumber(cameraMode);
+  }
+
+  public interface LedMode {
+    public static int USE_CURRENT_PIPELINE = 0;
+    public static int FORCE_OFF = 1;
+    public static int FORCE_BLINK = 2;
+    public static int FORCE_ON = 3;
+  }
+
+  public interface CameraMode {
+    public static int VISION_PROCESSING = 0;
+    public static int DRIVING = 1;
   }
 }
