@@ -37,6 +37,10 @@ public class Turret extends SubsystemBase {
     motor.set(ControlMode.PercentOutput, speed);
   }
 
+  public void moveDegrees(int degrees) {
+    // TODO
+  }
+
   public void stop() {
     motor.set(ControlMode.PercentOutput, 0);
   }

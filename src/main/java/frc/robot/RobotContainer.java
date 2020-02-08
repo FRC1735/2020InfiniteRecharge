@@ -10,10 +10,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ControlTurretWithJoystick;
+import frc.robot.commands.ControlTurretWithLimelight;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.joysticks.AbstractJoystick;
 import frc.robot.joysticks.JoystickFactory;
@@ -21,6 +23,7 @@ import frc.robot.joysticks.Role;
 import frc.robot.joysticks.XBoxJoystick;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Lighting;
+import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.Turret;
 
 /**
@@ -40,6 +43,7 @@ public class RobotContainer {
   // private final DriveLine driveLine = new DriveLine();
   private final Lighting lighting = new Lighting();
   private final Turret turret = new Turret();
+  private final LimeLight limeLight = new LimeLight();
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   //private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(abstractJoystickLeft, driveLine);
 
@@ -50,6 +54,12 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     //driveLine.setDefaultCommand(driveWithJoystickCommand);
+   
+    
+    //turret.setDefaultCommand(new ControlTurretWithLimelight(turret, limeLight, () -> SmartDashboard.getNumber("Turret P", 0), () -> SmartDashboard.getNumber("Turret I", 0),
+    //        () -> SmartDashboard.getNumber("Turret D", 0)));
+            
+
     turret.setDefaultCommand(new ControlTurretWithJoystick(turret, abstractJoystickLeft));
     intializeSmartDashBoard();
   }
@@ -83,19 +93,27 @@ public class RobotContainer {
   private void intializeSmartDashBoard() {
     /*
     SmartDashboard.putNumber("Turn Angle", 90);
-
+    
     SmartDashboard.putData("Turn",
         new TurnToAngle(driveLine, () -> SmartDashboard.getNumber("Turn Angle", 90),
             () -> SmartDashboard.getNumber("Turn P", 0), () -> SmartDashboard.getNumber("Turn I", 0),
             () -> SmartDashboard.getNumber("Turn D", 0)));
-
+    
     SmartDashboard.putNumber("Turn P", 0.2);
     SmartDashboard.putNumber("Turn I", 0.1);
     SmartDashboard.putNumber("Turn D", 0.5);
-
+    
     // this is an example and good use case for the "inline command" feature they
     // added this year
     SmartDashboard.putData("Reset Gyro", new InstantCommand(driveLine::zeroYaw, driveLine));
     */
+
+    SmartDashboard.putData("Turret Auto",
+    new ControlTurretWithLimelight(turret, limeLight, () -> SmartDashboard.getNumber("Turret P", 0), () -> SmartDashboard.getNumber("Turret I", 0),
+            () -> SmartDashboard.getNumber("Turret D", 0)));
+
+    SmartDashboard.putNumber("Turret P", 0.0);
+    SmartDashboard.putNumber("Turret I", 0.0);
+    SmartDashboard.putNumber("Turret D", 0.0);
   }
 }
