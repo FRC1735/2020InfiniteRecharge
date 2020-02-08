@@ -29,11 +29,7 @@ public class DriveDistance extends PIDCommand {
         // The controller that the command will use
         new PIDController(0.12, 0, 0),
         // This should return the measurement
-        () -> {
-          double encoderLeftValue = driveLine.getLeftMotor().getSelectedSensorPosition();
-          double encoderRightValue = driveLine.getRightMotor().getSelectedSensorPosition();
-          return (Math.abs(encoderLeftValue) + Math.abs(encoderRightValue))/2; 
-        },
+        () -> driveLine.getDistanceTraveled(),
         // This should return the setpoint (can also be a constant)
         () -> {
           double target = (SmartDashboard.getNumber("Drive Inches", 0) * DriveLine.ENCODER_TICK_PER_INCH);
@@ -61,17 +57,14 @@ public class DriveDistance extends PIDCommand {
   public void initialize() {
     // TODO Auto-generated method stub
     super.initialize();
-    driveLine.getLeftMotor().setSelectedSensorPosition(0);
-    driveLine.getRightMotor().setSelectedSensorPosition(0);
+    driveLine.resetEncoders();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     double target = (SmartDashboard.getNumber("Drive Inches", 0) * DriveLine.ENCODER_TICK_PER_INCH);
-    double encoderLeftValue = driveLine.getLeftMotor().getSelectedSensorPosition();
-    double encoderRightValue = driveLine.getRightMotor().getSelectedSensorPosition();
-    double actual = (Math.abs(encoderLeftValue) + Math.abs(encoderRightValue)) / 2;
+    double actual = driveLine.getDistanceTraveled();
     System.out.println("actual: " + actual + ", target: " + target);
 
     if (actual >= target) {

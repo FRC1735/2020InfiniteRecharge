@@ -84,6 +84,16 @@ public class DriveLine extends SubsystemBase {
     gyro.zeroYaw();
   }
 
+  public void resetEncoders() {
+    leftMotor.setSelectedSensorPosition(0);
+    rightMotor.setSelectedSensorPosition(0);
+  }
+
+  public double getDistanceTraveled() {
+    double encoderLeftValue = leftMotor.getSelectedSensorPosition();
+    double encoderRightValue = rightMotor.getSelectedSensorPosition();
+    return (Math.abs(encoderLeftValue) + Math.abs(encoderRightValue)) / 2;
+  }
   public void stop() {
     differentialDrive.stopMotor();
   }
