@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.TurnToAngle;
@@ -21,7 +22,6 @@ import frc.robot.joysticks.AbstractJoystick;
 import frc.robot.joysticks.JoystickFactory;
 import frc.robot.joysticks.Role;
 import frc.robot.joysticks.XBoxJoystick;
-import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.DriveLine;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Lighting;
@@ -42,7 +42,7 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final DriveLine driveLine = new DriveLine();
   private final Lighting lighting = new Lighting();
-  private final Collector collector = new Collector();
+ // private final Collector collector = new Collector();
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(abstractJoystickLeft, driveLine);
 
@@ -101,5 +101,10 @@ public class RobotContainer {
 
     // this is an example and good use case for the "inline command" feature they added this year
     SmartDashboard.putData("Reset Gyro", new InstantCommand(driveLine::zeroYaw, driveLine));
+
+    SmartDashboard.putNumber("Drive Inches", 0);
+
+    SmartDashboard.putData("Drive",
+        new DriveDistance(driveLine, SmartDashboard.getNumber("Drive Inches", 0)));
   }
 }

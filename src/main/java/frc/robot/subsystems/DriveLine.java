@@ -25,6 +25,8 @@ public class DriveLine extends SubsystemBase {
   private WPI_VictorSPX rightFollower;
   public final AHRS gyro;
 
+  public static double ENCODER_TICK_PER_INCH = (4096 / (3.1415926 * 6));
+
   /**
    * Creates a new DriveLine.
    */
@@ -49,6 +51,8 @@ public class DriveLine extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("gryo.yaw", getYaw());
+    SmartDashboard.putNumber("leftEncoder", leftMotor.getSelectedSensorPosition());
+    SmartDashboard.putNumber("rightEncoder", rightMotor.getSelectedSensorPosition());
   }
 
   public WPI_TalonSRX getLeftMotor() {
