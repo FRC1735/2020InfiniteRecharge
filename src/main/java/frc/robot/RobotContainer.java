@@ -21,6 +21,7 @@ import frc.robot.joysticks.AbstractJoystick;
 import frc.robot.joysticks.JoystickFactory;
 import frc.robot.joysticks.Role;
 import frc.robot.joysticks.XBoxJoystick;
+import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.DriveLine;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Lighting;
@@ -41,7 +42,7 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final DriveLine driveLine = new DriveLine();
   private final Lighting lighting = new Lighting();
-
+  private final Collector collector = new Collector();
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
   private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(abstractJoystickLeft, driveLine);
 
