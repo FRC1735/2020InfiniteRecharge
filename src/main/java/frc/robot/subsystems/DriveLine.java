@@ -25,6 +25,9 @@ public class DriveLine extends SubsystemBase {
   private WPI_VictorSPX rightFollower;
   public final AHRS gyro;
 
+  public static double ENCODER_TICK_PER_INCH = (4070 / (3.1415926 * 6));
+  private int LEFT_ENCODER_OFFSET = 0;
+
   /**
    * Creates a new DriveLine.
    */
@@ -49,6 +52,8 @@ public class DriveLine extends SubsystemBase {
   @Override
   public void periodic() {
     SmartDashboard.putNumber("gryo.yaw", getYaw());
+    SmartDashboard.putNumber("leftEncoder", leftMotor.getSelectedSensorPosition());
+    SmartDashboard.putNumber("rightEncoder", rightMotor.getSelectedSensorPosition());
   }
 
   public WPI_TalonSRX getLeftMotor() {
@@ -80,6 +85,16 @@ public class DriveLine extends SubsystemBase {
     gyro.zeroYaw();
   }
 
+  public void resetEncoders() {
+    leftMotor.setSelectedSensorPosition(0);
+    rightMotor.setSelectedSensorPosition(0);
+  }
+
+  public double getDistanceTraveled() {
+    double encoderLeftValue = leftMotor.getSelectedSensorPosition() - LEFT_ENCODER_OFFSET;
+    double encoderRightValue = rightMotor.getSelectedSensorPosition();
+    return (Math.abs(encoderLeftValue) + Math.abs(encoderRightValue)) / 2;
+  }
   public void stop() {
     differentialDrive.stopMotor();
   }

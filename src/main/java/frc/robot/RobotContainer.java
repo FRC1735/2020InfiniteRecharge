@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.TurnToAngle;
@@ -21,7 +22,6 @@ import frc.robot.joysticks.AbstractJoystick;
 import frc.robot.joysticks.JoystickFactory;
 import frc.robot.joysticks.Role;
 import frc.robot.joysticks.XBoxJoystick;
-import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.DriveLine;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Lighting;
@@ -34,72 +34,78 @@ import frc.robot.subsystems.Lighting;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private Joystick joystickLeft = new Joystick(0);
-  JoystickFactory joystickFactory = new JoystickFactory();
-  private AbstractJoystick abstractJoystickLeft = joystickFactory.get(joystickLeft, Role.DRIVER_LEFT);
+    private Joystick joystickLeft = new Joystick(0);
+    JoystickFactory joystickFactory = new JoystickFactory();
+    private AbstractJoystick abstractJoystickLeft = joystickFactory.get(joystickLeft, Role.DRIVER_LEFT);
 
-  // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final DriveLine driveLine = new DriveLine();
-  private final Lighting lighting = new Lighting();
-  private final Collector collector = new Collector();
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
-  private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(abstractJoystickLeft, driveLine);
+    // The robot's subsystems and commands are defined here...
+    private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+    private final DriveLine driveLine = new DriveLine();
+    private final Lighting lighting = new Lighting();
+    // private final Collector collector = new Collector();
+    private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+    private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(abstractJoystickLeft, driveLine);
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
-  public RobotContainer() {
-    // Configure the button bindings
-    configureButtonBindings();
-    driveLine.setDefaultCommand(driveWithJoystickCommand);
-    
-    intializeSmartDashBoard();
-  }
+    /**
+     * The container for the robot. Contains subsystems, OI devices, and commands.
+     */
+    public RobotContainer() {
+        // Configure the button bindings
+        configureButtonBindings();
+        driveLine.setDefaultCommand(driveWithJoystickCommand);
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be
-   * created by instantiating a {@link GenericHID} or one of its subclasses
-   * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
-   * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {
-    new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_X)
-        .whenPressed(new InstantCommand(lighting::blue, lighting));
-    
-    new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_Y)
-        .whenPressed(new InstantCommand(lighting::yellow, lighting));
+        intializeSmartDashBoard();
+    }
 
-    new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_A)
-        .whenPressed(new InstantCommand(lighting::on, lighting));
+    /**
+     * Use this method to define your button->command mappings. Buttons can be
+     * created by instantiating a {@link GenericHID} or one of its subclasses
+     * ({@link edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then
+     * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
+     */
+    private void configureButtonBindings() {
+        new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_X)
+                .whenPressed(new InstantCommand(lighting::blue, lighting));
 
-    new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_B)
-        .whenPressed(new InstantCommand(lighting::off, lighting));
-  }
+        new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_Y)
+                .whenPressed(new InstantCommand(lighting::yellow, lighting));
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
-  }
+        new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_A).whenPressed(new InstantCommand(lighting::on, lighting));
 
-  private void intializeSmartDashBoard() {
-    SmartDashboard.putNumber("Turn Angle", 90);
+        new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_B)
+                .whenPressed(new InstantCommand(lighting::off, lighting));
+    }
 
-    SmartDashboard.putData("Turn",
-        new TurnToAngle(driveLine, () -> SmartDashboard.getNumber("Turn Angle", 90),
-            () -> SmartDashboard.getNumber("Turn P", 0), () -> SmartDashboard.getNumber("Turn I", 0),
-            () -> SmartDashboard.getNumber("Turn D", 0)));
+    /**
+     * Use this to pass the autonomous command to the main {@link Robot} class.
+     *
+     * @return the command to run in autonomous
+     */
+    public Command getAutonomousCommand() {
+        // An ExampleCommand will run in autonomous
+        return m_autoCommand;
+    }
 
-    SmartDashboard.putNumber("Turn P", 0.2);
-    SmartDashboard.putNumber("Turn I", 0.1);
-    SmartDashboard.putNumber("Turn D", 0.5);
+    private void intializeSmartDashBoard() {
+        SmartDashboard.putNumber("Turn Angle", 90);
 
-    // this is an example and good use case for the "inline command" feature they added this year
-    SmartDashboard.putData("Reset Gyro", new InstantCommand(driveLine::zeroYaw, driveLine));
-  }
+        SmartDashboard.putData("Turn",
+                new TurnToAngle(driveLine, () -> SmartDashboard.getNumber("Turn Angle", 90),
+                        () -> SmartDashboard.getNumber("Turn P", 0), () -> SmartDashboard.getNumber("Turn I", 0),
+                        () -> SmartDashboard.getNumber("Turn D", 0)));
+
+        SmartDashboard.putNumber("Turn P", 0.2);
+        SmartDashboard.putNumber("Turn I", 0.1);
+        SmartDashboard.putNumber("Turn D", 0.5);
+
+        // this is an example and good use case for the "inline command" feature they
+        // added this year
+        SmartDashboard.putData("Reset Gyro", new InstantCommand(driveLine::zeroYaw, driveLine));
+
+        SmartDashboard.putNumber("Drive Inches", 0);
+
+        SmartDashboard.putData("Drive", new DriveDistance(driveLine, SmartDashboard.getNumber("Drive Inches", 0)));
+
+        SmartDashboard.putData("reset encoders", new InstantCommand(driveLine::resetEncoders, driveLine));
+    }
 }
