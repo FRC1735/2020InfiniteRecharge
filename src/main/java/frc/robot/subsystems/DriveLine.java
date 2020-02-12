@@ -25,7 +25,8 @@ public class DriveLine extends SubsystemBase {
   private WPI_VictorSPX rightFollower;
   public final AHRS gyro;
 
-  public static double ENCODER_TICK_PER_INCH = (4096 / (3.1415926 * 6));
+  public static double ENCODER_TICK_PER_INCH = (4070 / (3.1415926 * 6));
+  private int LEFT_ENCODER_OFFSET = 0;
 
   /**
    * Creates a new DriveLine.
@@ -90,7 +91,7 @@ public class DriveLine extends SubsystemBase {
   }
 
   public double getDistanceTraveled() {
-    double encoderLeftValue = leftMotor.getSelectedSensorPosition();
+    double encoderLeftValue = leftMotor.getSelectedSensorPosition() - LEFT_ENCODER_OFFSET;
     double encoderRightValue = rightMotor.getSelectedSensorPosition();
     return (Math.abs(encoderLeftValue) + Math.abs(encoderRightValue)) / 2;
   }

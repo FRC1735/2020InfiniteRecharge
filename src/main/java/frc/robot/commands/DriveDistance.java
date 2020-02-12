@@ -21,18 +21,18 @@ import frc.robot.subsystems.DriveLine;
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class DriveDistance extends PIDCommand {
   private DriveLine driveLine;
+
   /**
    * Creates a new DriveDistance.
    */
   public DriveDistance(DriveLine driveLine, double distanceInches) {
     super(
         // The controller that the command will use
-        new PIDController(0.12, 0, 0),
+        new PIDController(0.00125 * .45, 0.00033, 0),
         // This should return the measurement
         () -> driveLine.getDistanceTraveled(),
-        // This should return the setpoint (can also be a constant)
         () -> {
-          double target = (SmartDashboard.getNumber("Drive Inches", 0) * DriveLine.ENCODER_TICK_PER_INCH);
+          double target = (SmartDashboard.getNumber("Drive Inches", 0)) * DriveLine.ENCODER_TICK_PER_INCH;
           System.out.println("target: " + target);
           return target;
         },
@@ -41,9 +41,10 @@ public class DriveDistance extends PIDCommand {
           // Use the output here
           System.out.println("output: " + output);
           double clampedOutput = MathUtil.clamp(output, -.3, .3);
-          //driveLine.arcadeDrive(clampedOutput, clampedOutput);
+          // driveLine.arcadeDrive(clampedOutput, clampedOutput);
           driveLine.set(ControlMode.PercentOutput, clampedOutput, -clampedOutput);
         });
+    
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
     addRequirements(driveLine);
@@ -51,6 +52,8 @@ public class DriveDistance extends PIDCommand {
 
     driveLine.getLeftMotor().setNeutralMode(NeutralMode.Brake);
     driveLine.getRightMotor().setNeutralMode(NeutralMode.Brake);
+
+    getController().setTolerance(25);
   }
 
   @Override
@@ -63,15 +66,6 @@ public class DriveDistance extends PIDCommand {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    double target = (SmartDashboard.getNumber("Drive Inches", 0) * DriveLine.ENCODER_TICK_PER_INCH);
-    double actual = driveLine.getDistanceTraveled();
-    System.out.println("actual: " + actual + ", target: " + target);
-
-    if (actual >= target) {
-      driveLine.stop();
-      return true;
-    }
-    return false;
-    //return getController().atSetpoint();
+    return getController().atSetpoint();
   }
 }
