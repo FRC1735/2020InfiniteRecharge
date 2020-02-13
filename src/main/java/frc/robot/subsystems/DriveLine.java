@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.logging.Logger;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
@@ -28,10 +30,13 @@ public class DriveLine extends SubsystemBase {
   public static double ENCODER_TICK_PER_INCH = (4070 / (3.1415926 * 6));
   private int LEFT_ENCODER_OFFSET = 0;
 
+  Logger logger = Logger.getGlobal();
+
   /**
    * Creates a new DriveLine.
    */
   public DriveLine() {
+    logger.info("Initializing DriveLine");
     leftMotor = new WPI_TalonSRX(1);
     rightMotor = new WPI_TalonSRX(2);
     leftFollower = new WPI_VictorSPX(3);
