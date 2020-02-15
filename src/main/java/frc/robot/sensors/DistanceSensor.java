@@ -21,7 +21,7 @@ public class DistanceSensor {
     AnalogInput analogInput;
 
     public DistanceSensor(int port) {
-        //logger.info("Initializing distance sensor on port " + port);
+        logger.info("Initializing distance sensor on port " + port);
         analogInput = new AnalogInput(port);
     }
 
@@ -29,10 +29,7 @@ public class DistanceSensor {
         double voltage = Math.max(analogInput.getVoltage(), 0.00001);
         double distance = 12.84 * Math.pow(voltage, -0.9824);
 
-        //logger.info("raw distance: " + distance);
-
         double result = Math.max(Math.min(distance, 35.0), 4.5);
-        //logger.info("getDistance: " + result);
 
         return result;
     }
