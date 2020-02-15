@@ -7,29 +7,27 @@
 
 package frc.robot;
 
-import java.util.ArrayList;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.GetSensorDistance;
+import frc.robot.commands.ShootOne;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.joysticks.AbstractJoystick;
 import frc.robot.joysticks.JoystickFactory;
 import frc.robot.joysticks.Role;
 import frc.robot.joysticks.XBoxJoystick;
-import frc.robot.sensors.DistanceSensor;
 import frc.robot.subsystems.DriveLine;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Lighting;
+import frc.robot.subsystems.Shooter;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -48,6 +46,7 @@ public class RobotContainer {
     private final DriveLine driveLine = new DriveLine();
     private final Lighting lighting = new Lighting();
     // private final Collector collector = new Collector();
+    private final Shooter shooter = new Shooter();
     private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
     private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(abstractJoystickLeft, driveLine);
 
@@ -79,6 +78,9 @@ public class RobotContainer {
 
         new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_B)
                 .whenPressed(new InstantCommand(lighting::off, lighting));
+
+        new JoystickButton(joystickLeft, XBoxJoystick.BUMPER_R)
+                .whenPressed(new ShootOne(shooter).withTimeout(0.25));
     }
 
     /**
