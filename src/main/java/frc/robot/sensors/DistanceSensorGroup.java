@@ -48,7 +48,7 @@ public class DistanceSensorGroup {
         boolean detected = (distance > MIN_DETECTION_THRESHOLD_CM && distance < MAX_DETECTION_THRESTHOLD_CM);
 
         if (detected) {
-            logger.info("Power Cell detected at position " + position); 
+            logger.info("Power Cell detected at position " + position);
         } else {
             logger.info("Power Cell not detected at position " + position);
         }
