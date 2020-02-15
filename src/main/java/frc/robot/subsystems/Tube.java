@@ -11,9 +11,11 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.sensors.DistanceSensorGroup;
 
 public class Tube extends SubsystemBase {
   private WPI_VictorSPX motor;
+  private DistanceSensorGroup distanceSensorGroup;
   private double SPEED = 0.3;
 
   /**
@@ -21,6 +23,7 @@ public class Tube extends SubsystemBase {
    */
   public Tube() {
     motor = new WPI_VictorSPX(1); // TODO This is the left motor of the practice bot
+    distanceSensorGroup = new DistanceSensorGroup(0, 1, 2, 3, 4);
   }
 
   @Override
