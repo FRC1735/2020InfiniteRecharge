@@ -23,8 +23,8 @@ public class Shooter extends SubsystemBase{
    * Creates a new Shooter.
    */
   public Shooter() {
-    motor = new WPI_TalonSRX(1);
-    follower = new WPI_VictorSPX(2);
+    motor = new WPI_TalonSRX(8);
+    follower = new WPI_VictorSPX(4);
 
     follower.setSafetyEnabled(false);
     follower.follow(motor);
