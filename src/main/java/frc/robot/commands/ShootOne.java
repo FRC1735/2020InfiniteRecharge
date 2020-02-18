@@ -7,43 +7,37 @@
 
 package frc.robot.commands;
 
-import com.kauailabs.navx.frc.AHRS;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.joysticks.AbstractJoystick;
-import frc.robot.subsystems.DriveLine;
+import frc.robot.subsystems.Shooter;
 
-public class DriveWithJoystick extends CommandBase {
-  private AbstractJoystick joystick;
-  private DriveLine driveLine;
+public class ShootOne extends CommandBase {
+  Shooter shooter;
 
   /**
-   * Creates a new DriveWithJoystick.
+   * Creates a new ShootOne.
    */
-  public DriveWithJoystick(AbstractJoystick joystick, DriveLine driveLine) {
-    addRequirements(driveLine);
+  public ShootOne(Shooter shooter) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(shooter);
 
-    this.joystick = joystick;
-    this.driveLine = driveLine;
+    this.shooter = shooter;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveLine.arcadeDrive(joystick.getX(), joystick.getY());
+    shooter.engage();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    driveLine.stop();
+    shooter.disengage();
   }
 
   // Returns true when the command should end.

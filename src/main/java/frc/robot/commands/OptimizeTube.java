@@ -7,43 +7,52 @@
 
 package frc.robot.commands;
 
-import com.kauailabs.navx.frc.AHRS;
+import java.util.logging.Logger;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.joysticks.AbstractJoystick;
-import frc.robot.subsystems.DriveLine;
+import frc.robot.sensors.DistanceSensorGroup;
+import frc.robot.subsystems.Tube;
 
-public class DriveWithJoystick extends CommandBase {
-  private AbstractJoystick joystick;
-  private DriveLine driveLine;
+public class OptimizeTube extends CommandBase {
+  Logger logger = Logger.getGlobal();
 
+  private Tube tube;
   /**
-   * Creates a new DriveWithJoystick.
+   * Creates a new OptimizeTube.
    */
-  public DriveWithJoystick(AbstractJoystick joystick, DriveLine driveLine) {
-    addRequirements(driveLine);
-
-    this.joystick = joystick;
-    this.driveLine = driveLine;
+  public OptimizeTube(Tube thatTube) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(thatTube);
+    this.tube = thatTube;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driveLine.arcadeDrive(joystick.getX(), joystick.getY());
+    DistanceSensorGroup sensors = tube.getDistanceSensorGroup();
+
+    if (sensors.isPowerCellDetected(4)) {
+      logger.info("Tube is full!");
+      tube.stop();
+      return;
+    }
+
+    if (sensors.isPowerCellDetected(0)) {
+      tube.forward();
+    } else {
+      tube.stop();
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    driveLine.stop();
+    tube.stop();
   }
 
   // Returns true when the command should end.
