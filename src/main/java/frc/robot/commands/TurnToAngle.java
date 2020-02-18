@@ -32,7 +32,7 @@ public class TurnToAngle extends PIDCommand {
         angle,
         // This uses the output
         output -> {
-          double clampedOutput = MathUtil.clamp(output, -.3, .3);
+          double clampedOutput = MathUtil.clamp(output, -.1, .1);
           driveLine.set(ControlMode.PercentOutput, clampedOutput, clampedOutput);
         });
 

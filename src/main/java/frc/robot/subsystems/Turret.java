@@ -21,7 +21,7 @@ public class Turret extends SubsystemBase {
    * Creates a new Turret.
    */
   public Turret() {
-    motor = new WPI_TalonSRX(1); // Using same encoder as drivline, not sure of consequences of this, might crash
+    motor = new WPI_TalonSRX(2); // Using same encoder as drivline, not sure of consequences of this, might crash
                                  // program
     motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
     motor.setSelectedSensorPosition(0);
@@ -35,6 +35,10 @@ public class Turret extends SubsystemBase {
 
   public void set(double speed) {
     motor.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void moveDegrees(int degrees) {
+    // TODO
   }
 
   public void stop() {
