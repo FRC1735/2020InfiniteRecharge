@@ -37,10 +37,10 @@ public class DriveLine extends SubsystemBase {
    */
   public DriveLine() {
     logger.info("Initializing DriveLine");
-    leftMotor = new WPI_TalonSRX(1);
-    rightMotor = new WPI_TalonSRX(2);
-    leftFollower = new WPI_VictorSPX(3);
-    rightFollower = new WPI_VictorSPX(4);
+    leftMotor = new WPI_TalonSRX(6);
+    rightMotor = new WPI_TalonSRX(7);
+    leftFollower = new WPI_VictorSPX(1);
+    rightFollower = new WPI_VictorSPX(2);
     gyro = new AHRS(SerialPort.Port.kMXP);
 
     leftFollower.follow(leftMotor);

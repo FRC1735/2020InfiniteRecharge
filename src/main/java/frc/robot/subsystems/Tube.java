@@ -22,8 +22,8 @@ public class Tube extends SubsystemBase {
    * Creates a new Tube.
    */
   public Tube() {
-    motor = new WPI_VictorSPX(1); // TODO This is the left motor of the practice bot
-    distanceSensorGroup = new DistanceSensorGroup(0, 1, 2, 3, 4); // TODO RoboRio only has 4 slots, it really seems like we only 2 looking at how the OptimizeTube command works
+    motor = new WPI_VictorSPX(5);
+    distanceSensorGroup = new DistanceSensorGroup(0, 1, 2); // TODO RoboRio only has 4 slots, it really seems like we only 2 looking at how the OptimizeTube command works
   }
 
   @Override
