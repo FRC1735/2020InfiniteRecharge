@@ -20,7 +20,7 @@ public class Collector extends SubsystemBase {
    * Creates a new Collector.
    */
   public Collector() {
-    motor = new WPI_VictorSPX(3);
+    motor = new WPI_VictorSPX(1);
     solenoid = new Solenoid(0);
   }
 
