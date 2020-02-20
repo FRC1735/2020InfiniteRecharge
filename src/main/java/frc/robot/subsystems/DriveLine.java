@@ -14,7 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -41,7 +41,7 @@ public class DriveLine extends SubsystemBase {
     rightMotor = new WPI_TalonSRX(6);
     leftFollower = new WPI_VictorSPX(3);
     rightFollower = new WPI_VictorSPX(2);
-    gyro = new AHRS(SerialPort.Port.kMXP);
+    gyro = new AHRS(I2C.Port.kMXP);
 
     leftFollower.follow(leftMotor);
     rightFollower.follow(rightMotor);

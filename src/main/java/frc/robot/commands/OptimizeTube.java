@@ -43,7 +43,7 @@ public class OptimizeTube extends CommandBase {
     }
 
     if (sensors.isPowerCellDetected(0)) {
-      tube.forward();
+      tube.up();
     } else {
       tube.stop();
     }

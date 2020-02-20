@@ -15,15 +15,15 @@ import frc.robot.sensors.DistanceSensorGroup;
 
 public class Tube extends SubsystemBase {
   private WPI_VictorSPX motor;
-  private DistanceSensorGroup distanceSensorGroup;
-  private double SPEED = 0.3;
+  //private DistanceSensorGroup distanceSensorGroup;
+  private double SPEED = 1; //0.3;
 
   /**
    * Creates a new Tube.
    */
   public Tube() {
     motor = new WPI_VictorSPX(5);
-    distanceSensorGroup = new DistanceSensorGroup(0, 1, 2); // TODO RoboRio only has 4 slots, it really seems like we only 2 looking at how the OptimizeTube command works
+    //distanceSensorGroup = new DistanceSensorGroup(0, 1, 2); // TODO RoboRio only has 4 slots, it really seems like we only 2 looking at how the OptimizeTube command works
   }
 
   @Override
@@ -31,11 +31,11 @@ public class Tube extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void forward() {
+  public void down() {
     motor.set(ControlMode.PercentOutput, SPEED);
   }
 
-  public void backward() {
+  public void up() {
     motor.set(ControlMode.PercentOutput, -SPEED);
   }
 
@@ -43,6 +43,6 @@ public class Tube extends SubsystemBase {
     motor.stopMotor();
   }
   public DistanceSensorGroup getDistanceSensorGroup() {
-    return distanceSensorGroup;
+    return null;//distanceSensorGroup;
   }
 }

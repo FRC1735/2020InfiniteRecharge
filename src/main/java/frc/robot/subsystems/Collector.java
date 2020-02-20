@@ -29,19 +29,23 @@ public class Collector extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  private void collect() {
-    motor.set(SPEED);
-  }
-
-  private void spit() {
+  public void in() {
     motor.set(-SPEED);
   }
 
-  private void deploy() {
+  public void out() {
+    motor.set(SPEED);
+  }
+
+  public void stop() {
+    motor.stopMotor();
+  }
+
+  public void deploy() {
     solenoid.set(false);
   }
 
-  private void retract() {
+  public void retract() {
     solenoid.set(true);
   }
 }
