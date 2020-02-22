@@ -10,11 +10,13 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ControlTurretWithJoystick;
+import frc.robot.commands.DeployCollector;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ExampleCommand;
@@ -62,8 +64,8 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the button bindings
         configureButtonBindings();
-        //driveLine.setDefaultCommand(driveWithJoystickCommand);
-        turret.setDefaultCommand(new ControlTurretWithJoystick(turret, abstractJoystickLeft));
+        driveLine.setDefaultCommand(driveWithJoystickCommand);
+        //turret.setDefaultCommand(new ControlTurretWithJoystick(turret, abstractJoystickLeft));
 
         intializeSmartDashBoard();
     }
@@ -75,38 +77,33 @@ public class RobotContainer {
      * passing it to a {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        /*
-        new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_X)
-                .whenPressed(new InstantCommand(lighting::blue, lighting));
+        initializeXBoxController();
+    }
 
-        new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_Y)
-                .whenPressed(new InstantCommand(lighting::yellow, lighting));
-*/
-                /*
-        new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_A).whenPressed(new InstantCommand(lighting::on, lighting));
+    private void initializeXBoxController() {
+        // shooter
+        new JoystickButton(joystickLeft, XBoxJoystick.BUMPER_R).whenPressed(new ShootOne(shooter, tube)).whenReleased(new InstantCommand(shooter::disengage, shooter));//.withTimeout(0.25));
 
-        new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_B)
-                .whenPressed(new InstantCommand(lighting::off, lighting));
-*/
-        new JoystickButton(joystickLeft, XBoxJoystick.BUMPER_R)
-                .whenPressed(new ShootOne(shooter).withTimeout(0.25));
-        
         // tube
-        new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_A)
-                .whenPressed(new InstantCommand(tube::down, tube)) // down
+        new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_A).whenPressed(new InstantCommand(tube::down, tube))
                 .whenReleased(new InstantCommand(tube::stop, tube));
-        new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_B)
-                .whenPressed(new InstantCommand(tube::up, tube))
+        new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_B).whenPressed(new InstantCommand(tube::up, tube))
                 .whenReleased(new InstantCommand(tube::stop, tube));
 
         // collector
         new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_X)
-            .whenPressed(new InstantCommand(collector::in, collector))
+                .whenPressed(new InstantCommand(collector::in, collector))
                 .whenReleased(new InstantCommand(collector::stop, collector));
 
         new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_Y)
-            .whenPressed(new InstantCommand(collector::out, collector))
+                .whenPressed(new InstantCommand(collector::out, collector))
                 .whenReleased(new InstantCommand(collector::stop, collector));
+
+        new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_START)
+                .whenPressed(new DeployCollector(collector, Value.kForward).withTimeout(0.25));
+
+        new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_BACK)
+                .whenPressed(new DeployCollector(collector, Value.kReverse).withTimeout(0.25));
     }
 
     /**

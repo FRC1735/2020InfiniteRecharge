@@ -9,19 +9,21 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Collector extends SubsystemBase {
   private WPI_VictorSPX motor;
-  private Solenoid solenoid;
-  private double SPEED = .3;
+  private DoubleSolenoid solenoid;
+  private double SPEED = 1;
   /*
    * Creates a new Collector.
    */
   public Collector() {
     motor = new WPI_VictorSPX(1);
-    solenoid = new Solenoid(0);
+    solenoid = new DoubleSolenoid(0, 1);
   }
 
   @Override
@@ -37,15 +39,21 @@ public class Collector extends SubsystemBase {
     motor.set(SPEED);
   }
 
+
   public void stop() {
     motor.stopMotor();
+    solenoid.set(Value.kOff);
+  }
+
+  public void stopSolenoid() {
+    solenoid.set(Value.kOff);
   }
 
   public void deploy() {
-    solenoid.set(false);
+    solenoid.set(Value.kForward);
   }
 
   public void retract() {
-    solenoid.set(true);
+    solenoid.set(Value.kReverse);
   }
 }

@@ -7,30 +7,33 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Tube;
+import frc.robot.subsystems.Collector;
 
-public class ShootOne extends CommandBase {
-  Shooter shooter;
-  Tube tube;
+public class DeployCollector extends CommandBase {
+  Collector collector;
+  Value direction;
 
   /**
-   * Creates a new ShootOne.
+   * Creates a new DeployCollector.
    */
-  public ShootOne(Shooter shooter, Tube tube) {
+  public DeployCollector(Collector collector, Value direction) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter);
+    addRequirements(collector);
 
-    this.shooter = shooter;
-    this.tube = tube;
+    this.collector = collector;
+    this.direction = direction;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //tube.up();
-    shooter.engage();
+    if (direction == Value.kForward) {
+      collector.deploy();
+    } else {
+      collector.retract();
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,8 +44,7 @@ public class ShootOne extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.disengage();
-    //tube.stop();
+    collector.stopSolenoid();
   }
 
   // Returns true when the command should end.

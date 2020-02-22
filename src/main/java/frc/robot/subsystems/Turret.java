@@ -29,7 +29,7 @@ public class Turret extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Turret Encoder", motor.getSelectedSensorPosition());
+    //SmartDashboard.putNumber("Turret Encoder", motor.getSelectedSensorPosition());
   }
 
   public void set(double speed) {

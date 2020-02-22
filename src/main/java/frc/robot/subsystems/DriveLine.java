@@ -56,6 +56,7 @@ public class DriveLine extends SubsystemBase {
 
   @Override
   public void periodic() {
+
     SmartDashboard.putNumber("gryo.yaw", getYaw());
     SmartDashboard.putNumber("leftEncoder", leftMotor.getSelectedSensorPosition());
     SmartDashboard.putNumber("rightEncoder", rightMotor.getSelectedSensorPosition());
@@ -70,7 +71,8 @@ public class DriveLine extends SubsystemBase {
   }
 
   public void arcadeDrive(final double joystickX, final double joystickY) {
-    differentialDrive.arcadeDrive(joystickY, joystickX, true);
+    logger.info("x: " + joystickX + " y: " + joystickY);
+    differentialDrive.arcadeDrive(-joystickY, joystickX, true);
   }
 
   public void tankDrive(final double joystickAY, final double joystickBY) {

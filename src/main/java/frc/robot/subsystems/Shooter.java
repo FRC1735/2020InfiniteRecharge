@@ -7,17 +7,23 @@
 
 package frc.robot.subsystems;
 
+
+import java.util.logging.Logger;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Shooter extends SubsystemBase{
+public class Shooter extends SubsystemBase {
+  Logger logger = Logger.getGlobal();
+
   private WPI_TalonSRX motor;
   private WPI_VictorSPX follower; // TODO - rename if there is a more contextually relevant name, ie motorLeft, motorRight
-  private double SPEED = 0.3;
+  private double SPEED = 1;
 
   /**
    * Creates a new Shooter.
@@ -28,6 +34,15 @@ public class Shooter extends SubsystemBase{
 
     follower.setSafetyEnabled(false);
     follower.follow(motor);
+
+    //motor.getSelectedSensorVelocity()
+  }
+
+  @Override
+  public void periodic() {
+    //logger.info("shooter encoder: " + motor.getSelectedSensorPosition());
+    SmartDashboard.putNumber("shooter encoder", motor.getSelectedSensorVelocity(0));
+
   }
 
   public void engage() {

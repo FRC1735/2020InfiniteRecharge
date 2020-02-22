@@ -17,8 +17,8 @@ public class XBoxJoystick extends AbstractJoystick {
     public static final int BUTTON_Y = 4;
     public static final int BUMPER_L = 5;
     public static final int BUMPER_R = 6;
-    private static final int BUTTON_BACK = 7;
-    private static final int BUTTON_START = 8;
+    public static final int BUTTON_BACK = 7;
+    public static final int BUTTON_START = 8;
     private static final int L_STICK_PRESS = 9;
     private static final int R_STICK_PRESS = 10;
 
