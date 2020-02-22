@@ -19,8 +19,7 @@ import frc.robot.commands.DeployCollector;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.GetSensorDistance;
-import frc.robot.commands.Shoot;
+import frc.robot.commands.ShootOne;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.joysticks.AbstractJoystick;
 import frc.robot.joysticks.JoystickFactory;
@@ -63,7 +62,8 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the button bindings
         configureButtonBindings();
-        driveLine.setDefaultCommand(driveWithJoystickCommand);
+                driveLine.setDefaultCommand(driveWithJoystickCommand);
+        //tube.setDefaultCommand(new OptimizeTube(tube, lighting));//new LightIfBallDetected(lighting, tube));
         //turret.setDefaultCommand(new ControlTurretWithJoystick(turret, abstractJoystickLeft));
 
         intializeSmartDashBoard();
@@ -83,11 +83,11 @@ public class RobotContainer {
         // shooter
         
         // without PID
-        //new JoystickButton(joystickLeft, XBoxJoystick.BUMPER_R).whenPressed(new ShootOne(shooter, tube)).whenReleased(new InstantCommand(shooter::disengage, shooter));//.withTimeout(0.25));
+        new JoystickButton(joystickLeft, XBoxJoystick.BUMPER_R).whenPressed(new ShootOne(shooter, tube)).whenReleased(new InstantCommand(shooter::disengage, shooter));//.withTimeout(0.25));
 
         // with PID
-        new JoystickButton(joystickLeft, XBoxJoystick.BUMPER_R).whenPressed(new Shoot(shooter))
-                .whenReleased(new InstantCommand(shooter::disengage, shooter));
+        //new JoystickButton(joystickLeft, XBoxJoystick.BUMPER_R).whenPressed(new Shoot(shooter))
+        //        .whenReleased(new InstantCommand(shooter::disengage, shooter));
 
         // tube
         new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_A).whenPressed(new InstantCommand(tube::down, tube))
@@ -112,7 +112,7 @@ public class RobotContainer {
 
         // lighting
         new JoystickButton(joystickLeft, XBoxJoystick.BUMPER_L)
-            .whenPressed(new InstantCommand(lighting::blue, lighting))
+            .whenPressed(new InstantCommand(lighting::green, lighting))
             .whenReleased(new InstantCommand(lighting::yellow, lighting));
     }
 
@@ -148,6 +148,6 @@ public class RobotContainer {
 
         SmartDashboard.putData("reset encoders", new InstantCommand(driveLine::resetEncoders, driveLine));
 
-        SmartDashboard.putData("get distance", new GetSensorDistance());
+        //SmartDashboard.putData("get distance", new GetSensorDistance());
     }
 }

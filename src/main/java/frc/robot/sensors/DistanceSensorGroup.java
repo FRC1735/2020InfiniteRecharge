@@ -11,19 +11,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class DistanceSensorGroup {
     Logger logger = Logger.getGlobal();
 
     List<DistanceSensor> sensors;
 
-    int MIN_DETECTION_THRESHOLD_CM = 3;
-    int MAX_DETECTION_THRESTHOLD_CM = 5;
+    double MIN_DETECTION_THRESHOLD_CM = 5;
+    double MAX_DETECTION_THRESTHOLD_CM = 9.7;
 
     public DistanceSensorGroup(int portA, int portB, int portC) {
         sensors = new ArrayList();
         sensors.add(new DistanceSensor(portA));
-        sensors.add(new DistanceSensor(portB));
-        sensors.add(new DistanceSensor(portC));
+        //sensors.add(new DistanceSensor(portB));
+        //sensors.add(new DistanceSensor(portC));
     }
 
     public List<Double> getDistances() {
@@ -43,6 +45,7 @@ public class DistanceSensorGroup {
         }
 
         double distance = sensors.get(position).getDistance();
+        SmartDashboard.putNumber("Distance Sensor", distance);
         boolean detected = (distance > MIN_DETECTION_THRESHOLD_CM && distance < MAX_DETECTION_THRESTHOLD_CM);
 
         if (detected) {

@@ -7,15 +7,20 @@
 
 package frc.robot.subsystems;
 
+import java.util.logging.Logger;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.sensors.DistanceSensorGroup;
 
 public class Tube extends SubsystemBase {
+  Logger logger = Logger.getGlobal();
+
   private WPI_VictorSPX motor;
-  //private DistanceSensorGroup distanceSensorGroup;
+  private DistanceSensorGroup distanceSensorGroup;
   private double SPEED = 1; //0.3;
 
   /**
@@ -23,12 +28,14 @@ public class Tube extends SubsystemBase {
    */
   public Tube() {
     motor = new WPI_VictorSPX(5);
-    //distanceSensorGroup = new DistanceSensorGroup(0, 1, 2); // TODO RoboRio only has 4 slots, it really seems like we only 2 looking at how the OptimizeTube command works
+    distanceSensorGroup = new DistanceSensorGroup(0, 1, 2); // TODO RoboRio only has 4 slots, it really seems like we only 2 looking at how the OptimizeTube command works
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    //logger.info("d: " + getDistanceSensorGroup().getDistances().get(0));
+    //logger.info("DETECTED: " + getDistanceSensorGroup().isPowerCellDetected(0));
   }
 
   public void down() {
@@ -43,6 +50,6 @@ public class Tube extends SubsystemBase {
     motor.stopMotor();
   }
   public DistanceSensorGroup getDistanceSensorGroup() {
-    return null;//distanceSensorGroup;
+    return distanceSensorGroup;
   }
 }

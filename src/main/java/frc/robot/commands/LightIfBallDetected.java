@@ -7,28 +7,24 @@
 
 package frc.robot.commands;
 
-import java.util.logging.Logger;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.sensors.DistanceSensorGroup;
 import frc.robot.subsystems.Lighting;
 import frc.robot.subsystems.Tube;
 
-public class OptimizeTube extends CommandBase {
-  Logger logger = Logger.getGlobal();
+public class LightIfBallDetected extends CommandBase {
+  Lighting lighting;
+  Tube tube;
 
-  private Tube tube;
-  private Lighting lighting;
   /**
-   * Creates a new OptimizeTube.
+   * Creates a new LightIfBallDetected.
    */
-  public OptimizeTube(Tube thatTube, Lighting lighting) {
+  public LightIfBallDetected(Lighting lighting, Tube tube) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(thatTube);
-    addRequirements(lighting);
-    this.tube = thatTube;
+    addRequirements(lighting, tube);
     this.lighting = lighting;
+    this.tube = tube;
   }
+
 
   // Called when the command is initially scheduled.
   @Override
@@ -38,21 +34,9 @@ public class OptimizeTube extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    DistanceSensorGroup sensors = tube.getDistanceSensorGroup();
-
-    /*
-    if (sensors.isPowerCellDetected(4)) {
-      logger.info("Tube is full!");
-      tube.stop();
-      return;
-    }
-    */
-
-    if (sensors.isPowerCellDetected(0)) {
-      tube.up();
+    if (tube.getDistanceSensorGroup().isPowerCellDetected(0)) {
       lighting.blue();
     } else {
-      tube.stop();
       lighting.yellow();
     }
   }
@@ -60,7 +44,6 @@ public class OptimizeTube extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    tube.stop();
   }
 
   // Returns true when the command should end.
