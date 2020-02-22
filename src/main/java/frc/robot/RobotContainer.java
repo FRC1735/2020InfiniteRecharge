@@ -7,21 +7,20 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.ControlTurretWithJoystick;
 import frc.robot.commands.DeployCollector;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.GetSensorDistance;
-import frc.robot.commands.ShootOne;
+import frc.robot.commands.Shoot;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.joysticks.AbstractJoystick;
 import frc.robot.joysticks.JoystickFactory;
@@ -82,7 +81,13 @@ public class RobotContainer {
 
     private void initializeXBoxController() {
         // shooter
-        new JoystickButton(joystickLeft, XBoxJoystick.BUMPER_R).whenPressed(new ShootOne(shooter, tube)).whenReleased(new InstantCommand(shooter::disengage, shooter));//.withTimeout(0.25));
+        
+        // without PID
+        //new JoystickButton(joystickLeft, XBoxJoystick.BUMPER_R).whenPressed(new ShootOne(shooter, tube)).whenReleased(new InstantCommand(shooter::disengage, shooter));//.withTimeout(0.25));
+
+        // with PID
+        new JoystickButton(joystickLeft, XBoxJoystick.BUMPER_R).whenPressed(new Shoot(shooter))
+                .whenReleased(new InstantCommand(shooter::disengage, shooter));
 
         // tube
         new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_A).whenPressed(new InstantCommand(tube::down, tube))

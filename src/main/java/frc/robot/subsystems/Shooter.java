@@ -45,6 +45,14 @@ public class Shooter extends SubsystemBase {
 
   }
 
+  public double getVelocity() {
+    return motor.getSelectedSensorVelocity(0);
+  }
+
+  public void set(double speed) {
+    motor.set(ControlMode.PercentOutput, speed);
+  }
+
   public void engage() {
     motor.set(ControlMode.PercentOutput, SPEED);
   }
