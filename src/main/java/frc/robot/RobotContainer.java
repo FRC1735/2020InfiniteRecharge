@@ -109,6 +109,11 @@ public class RobotContainer {
 
         new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_BACK)
                 .whenPressed(new DeployCollector(collector, Value.kReverse).withTimeout(0.25));
+
+        // lighting
+        new JoystickButton(joystickLeft, XBoxJoystick.BUMPER_L)
+            .whenPressed(new InstantCommand(lighting::blue, lighting))
+            .whenReleased(new InstantCommand(lighting::yellow, lighting));
     }
 
     /**

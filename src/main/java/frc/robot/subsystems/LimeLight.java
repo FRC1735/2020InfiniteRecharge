@@ -75,6 +75,14 @@ public class LimeLight extends SubsystemBase {
     limelight.getEntry("camMode").setNumber(cameraMode);
   }
 
+  public double getDistanceToTarget() {
+    double TARGET_HEIGHT = 0; // h2
+    double CAMERA_HEIGHT = 0; // h1
+    double MOUNTING_ANGLE = 0; // a1
+
+    return 0;
+  }
+
   public interface LedMode {
     public static int USE_CURRENT_PIPELINE = 0;
     public static int FORCE_OFF = 1;
