@@ -94,9 +94,9 @@ public class RobotContainer {
                 .whenReleased(new InstantCommand(shooter::disengage, shooter));
 
         // tube
-        new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_A).whenPressed(new InstantCommand(tube::down, tube))
+        new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_A).whenPressed(new InstantCommand(tube::downManual, tube))
                 .whenReleased(new InstantCommand(tube::stop, tube));
-        new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_B).whenPressed(new InstantCommand(tube::up, tube))
+        new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_B).whenPressed(new InstantCommand(tube::upManual, tube))
                 .whenReleased(new InstantCommand(tube::stop, tube));
 
         // collector

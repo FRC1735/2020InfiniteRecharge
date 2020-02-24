@@ -19,9 +19,11 @@ import frc.robot.sensors.DistanceSensorGroup;
 public class Tube extends SubsystemBase {
   Logger logger = Logger.getGlobal();
 
+  private static double MANUAL_CONTROL_SPEED = 1.0;
+  private static double OPTIMIZE_TUBE_SPEED = 0.6;
+
   private WPI_VictorSPX motor;
   private DistanceSensorGroup distanceSensorGroup;
-  private double SPEED = 0.6; //0.3;
 
   /**
    * Creates a new Tube.
@@ -31,25 +33,34 @@ public class Tube extends SubsystemBase {
     distanceSensorGroup = new DistanceSensorGroup(0, 1, 2); // TODO RoboRio only has 4 slots, it really seems like we only 2 looking at how the OptimizeTube command works
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-    //logger.info("d: " + getDistanceSensorGroup().getDistances().get(0));
-    //logger.info("DETECTED: " + getDistanceSensorGroup().isPowerCellDetected(0));
+  public void downManual() {
+    down(-MANUAL_CONTROL_SPEED);
   }
 
-  public void down() {
-    motor.set(ControlMode.PercentOutput, SPEED);
+  public void upManual() {
+    up(MANUAL_CONTROL_SPEED);
   }
 
-  public void up() {
-    motor.set(ControlMode.PercentOutput, -SPEED);
+  public void downOptimize() {
+    down(-OPTIMIZE_TUBE_SPEED);
+  }
+
+  public void upOptimize() {
+    up(OPTIMIZE_TUBE_SPEED);
+  }
+
+  private void down(double speed) {
+    motor.set(ControlMode.PercentOutput, speed);
+  }
+
+  private void up(double speed) {
+    motor.set(ControlMode.PercentOutput, speed);
   }
 
   public void stop() {
-
     motor.stopMotor();
   }
+
   public DistanceSensorGroup getDistanceSensorGroup() {
     return distanceSensorGroup;
   }

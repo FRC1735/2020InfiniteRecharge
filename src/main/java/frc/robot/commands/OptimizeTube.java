@@ -43,17 +43,14 @@ public class OptimizeTube extends CommandBase {
 
     SmartDashboard.putNumber("distance sensor 1", sensors.getDistances().get(1));
     
-    /*
     if (sensors.isPowerCellDetected(1)) {
       logger.info("Tube is full!");
       tube.stop();
       return;
     }
-    */
-    
 
     if (sensors.isPowerCellDetected(0)) {
-      tube.up();
+      tube.upOptimize();
       lighting.blue();
     } else {
       tube.stop();
