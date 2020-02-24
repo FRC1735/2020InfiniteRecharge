@@ -71,7 +71,6 @@ public class DriveLine extends SubsystemBase {
   }
 
   public void arcadeDrive(final double joystickX, final double joystickY) {
-    logger.info("x: " + joystickX + " y: " + joystickY);
     differentialDrive.arcadeDrive(-joystickY, joystickX, true);
   }
 

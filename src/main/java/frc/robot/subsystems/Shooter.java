@@ -40,8 +40,6 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void periodic() {
-    //logger.info("shooter encoder: " + motor.getSelectedSensorPosition());
-    SmartDashboard.putNumber("shooter encoder", motor.getSelectedSensorVelocity(0));
 
   }
 

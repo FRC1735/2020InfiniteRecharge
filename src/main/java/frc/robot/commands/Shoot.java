@@ -26,20 +26,30 @@ public class Shoot extends PIDCommand {
         // The controller that the command will use
         new PIDController(0.00125 * .45, 0.00033, 0),
         // This should return the measurement
-        () -> shooter.getVelocity(),
+        () -> {
+          double v = shooter.getVelocity();
+          SmartDashboard.putNumber("shooter v", v);
+          return v;
+        },
         // This should return the setpoint (can also be a constant)
-        () -> -59000,
+        () -> -24000,
         // This uses the output
         output -> {
           SmartDashboard.putNumber("shoot pid output", output);
-          double speed = MathUtil.clamp(Math.abs(output), 0, 1);
-          shooter.set(speed);
+          double speed = MathUtil.clamp(Math.abs(output), -1, 1);
+          shooter.set(output);
         });
     // Use addRequirements() here to declare subsystem dependencies.
     // Configure additional PID options by calling `getController` here.
     addRequirements(shooter);
 
     getController().setTolerance(100);
+
+    if (Constants.TUNING_MODE) {
+      SmartDashboard.putNumber(Constants.SD_SHOOTER_PID_P, 1);
+      SmartDashboard.putNumber(Constants.SD_SHOOTER_PID_I, 0);
+      SmartDashboard.putNumber(Constants.SD_SHOOTER_PID_D, 0);
+    }
   }
 
   @Override
@@ -47,6 +57,7 @@ public class Shoot extends PIDCommand {
     super.execute();
     if (Constants.TUNING_MODE) {
       PIDController controller = getController();
+
       double currentP = controller.getP();
       double currentI = controller.getI();
       double currentD = controller.getD();
@@ -66,6 +77,8 @@ public class Shoot extends PIDCommand {
       if (currentD != sdD) {
         controller.setD(sdD);
       }
+
+      SmartDashboard.putNumber("Error", getController().getPositionError());
     }
   }
 

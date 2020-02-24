@@ -18,13 +18,13 @@ public class DistanceSensorGroup {
 
     List<DistanceSensor> sensors;
 
-    double MIN_DETECTION_THRESHOLD_CM = 5;
-    double MAX_DETECTION_THRESTHOLD_CM = 9.7;
+    double MIN_DETECTION_THRESHOLD_CM = 3.5;
+    double MAX_DETECTION_THRESTHOLD_CM = 11;
 
     public DistanceSensorGroup(int portA, int portB, int portC) {
         sensors = new ArrayList();
         sensors.add(new DistanceSensor(portA));
-        //sensors.add(new DistanceSensor(portB));
+        sensors.add(new DistanceSensor(portB));
         //sensors.add(new DistanceSensor(portC));
     }
 
@@ -45,7 +45,8 @@ public class DistanceSensorGroup {
         }
 
         double distance = sensors.get(position).getDistance();
-        SmartDashboard.putNumber("Distance Sensor", distance);
+        SmartDashboard.putNumber("Distance Sensor " + position, distance);
+
         boolean detected = (distance > MIN_DETECTION_THRESHOLD_CM && distance < MAX_DETECTION_THRESTHOLD_CM);
 
         if (detected) {

@@ -21,7 +21,7 @@ public class Tube extends SubsystemBase {
 
   private WPI_VictorSPX motor;
   private DistanceSensorGroup distanceSensorGroup;
-  private double SPEED = 1; //0.3;
+  private double SPEED = 0.6; //0.3;
 
   /**
    * Creates a new Tube.
@@ -47,6 +47,7 @@ public class Tube extends SubsystemBase {
   }
 
   public void stop() {
+
     motor.stopMotor();
   }
   public DistanceSensorGroup getDistanceSensorGroup() {

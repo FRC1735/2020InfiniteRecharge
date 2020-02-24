@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import java.util.logging.Logger;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.sensors.DistanceSensorGroup;
 import frc.robot.subsystems.Lighting;
@@ -40,13 +41,16 @@ public class OptimizeTube extends CommandBase {
   public void execute() {
     DistanceSensorGroup sensors = tube.getDistanceSensorGroup();
 
+    SmartDashboard.putNumber("distance sensor 1", sensors.getDistances().get(1));
+    
     /*
-    if (sensors.isPowerCellDetected(4)) {
+    if (sensors.isPowerCellDetected(1)) {
       logger.info("Tube is full!");
       tube.stop();
       return;
     }
     */
+    
 
     if (sensors.isPowerCellDetected(0)) {
       tube.up();
