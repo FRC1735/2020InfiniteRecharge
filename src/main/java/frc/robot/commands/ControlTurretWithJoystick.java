@@ -27,8 +27,8 @@ public class ControlTurretWithJoystick extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double v = joystick.getSwivelStickX();
-    if (Math.abs(v) > 0.05) {
+    double v = joystick.getX();
+    if (Math.abs(v) > 0.1) {
       turret.set(v);
     } else {
       turret.stop();

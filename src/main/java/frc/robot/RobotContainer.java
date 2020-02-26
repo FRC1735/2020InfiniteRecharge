@@ -14,16 +14,19 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.ControlTurretWithJoystick;
 import frc.robot.commands.DeployCollector;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.OptimizeTube;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.ShootOne;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.joysticks.AbstractJoystick;
+import frc.robot.joysticks.Attack3Joystick;
 import frc.robot.joysticks.JoystickFactory;
 import frc.robot.joysticks.Role;
 import frc.robot.joysticks.XBoxJoystick;
@@ -43,9 +46,12 @@ import frc.robot.subsystems.Turret;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-    private Joystick joystickLeft = new Joystick(0);
+    private Joystick xBoxJoystick = new Joystick(0);
+    private Joystick attack3Joystick = new Joystick(1);       
+
     JoystickFactory joystickFactory = new JoystickFactory();
-    private AbstractJoystick abstractJoystickLeft = joystickFactory.get(joystickLeft, Role.DRIVER_LEFT);
+    private AbstractJoystick abstractJoystickLeft = joystickFactory.get(xBoxJoystick, Role.DRIVER_LEFT);
+    private AbstractJoystick abstractJoystickRight = joystickFactory.get(attack3Joystick, Role.OPERATOR);
 
     // The robot's subsystems and commands are defined here...
     private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
@@ -65,10 +71,10 @@ public class RobotContainer {
         // Configure the button bindings
         configureButtonBindings();
         driveLine.setDefaultCommand(driveWithJoystickCommand);
-        //tube.setDefaultCommand(new OptimizeTube(tube, lighting));
-        //tube.setDefaultCommand(new LightIfBallDetected(lighting, tube));
-        //turret.setDefaultCommand(new ControlTurretWithJoystick(turret, abstractJoystickLeft));
-        //lighting.setDefaultCommand(new InstantCommand(lighting::green, lighting));
+        // tube.setDefaultCommand(new OptimizeTube(tube, lighting));
+        // tube.setDefaultCommand(new LightIfBallDetected(lighting, tube));
+         turret.setDefaultCommand(new ControlTurretWithJoystick(turret, abstractJoystickRight));
+        // lighting.setDefaultCommand(new InstantCommand(lighting::green, lighting));
 
         intializeSmartDashBoard();
     }
@@ -81,43 +87,53 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         initializeXBoxController();
+        initializeAttack3();
     }
 
     private void initializeXBoxController() {
-        // shooter
-        
-        // without PID
-        //new JoystickButton(joystickLeft, XBoxJoystick.BUMPER_R).whenPressed(new ShootOne(shooter, tube)).whenReleased(new InstantCommand(shooter::disengage, shooter));//.withTimeout(0.25));
-
-        // with PID
-        new JoystickButton(joystickLeft, XBoxJoystick.BUMPER_R).whenPressed(new ShootOne(shooter, tube))
-                .whenReleased(new InstantCommand(shooter::disengage, shooter));
-
-        // tube
-        new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_A).whenPressed(new InstantCommand(tube::downManual, tube))
-                .whenReleased(new InstantCommand(tube::stop, tube));
-        new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_B).whenPressed(new InstantCommand(tube::upManual, tube))
-                .whenReleased(new InstantCommand(tube::stop, tube));
 
         // collector
-        new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_X)
-                .whenPressed(new InstantCommand(collector::in, collector))
-                .whenReleased(new InstantCommand(collector::stop, collector));
-
-        new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_Y)
+        // when pressed: deploy collector and suck in
+        // when releaes: stop collector and pull in
+        new JoystickButton(xBoxJoystick, XBoxJoystick.BUTTON_A)
+                .whenPressed(new SequentialCommandGroup(
+                        new DeployCollector(collector, Value.kForward).withTimeout(0.25),
+                        new InstantCommand(collector::in, collector)
+                ))
+                .whenReleased(new SequentialCommandGroup(
+                        new InstantCommand(collector::stop, collector),
+                        new DeployCollector(collector, Value.kReverse).withTimeout(0.25)        
+                                ));
+        // suck in
+        new JoystickButton(xBoxJoystick, XBoxJoystick.BUTTON_A)
                 .whenPressed(new InstantCommand(collector::out, collector))
                 .whenReleased(new InstantCommand(collector::stop, collector));
+                
+        new JoystickButton(xBoxJoystick, XBoxJoystick.BUTTON_B)
+                .whenPressed(new InstantCommand(collector::in, collector))
+                .whenReleased(new InstantCommand(collector::stop, collector));
+    }
 
-        new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_START)
-                .whenPressed(new DeployCollector(collector, Value.kForward).withTimeout(0.25));
+    private void initializeAttack3() {
+        // shooter
+        new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_1).whenPressed(new ShootOne(shooter, tube))
+                                .whenReleased(new InstantCommand(shooter::disengage, shooter));
+        new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_2)
+             .whenPressed(new InstantCommand(shooter::engageReversed, shooter))
+                                .whenReleased(new InstantCommand(shooter::disengage, shooter));
 
-        new JoystickButton(joystickLeft, XBoxJoystick.BUTTON_BACK)
-                .whenPressed(new DeployCollector(collector, Value.kReverse).withTimeout(0.25));
-
-        // lighting
-        new JoystickButton(joystickLeft, XBoxJoystick.BUMPER_L)
-            .whenPressed(new InstantCommand(lighting::green, lighting))
-            .whenReleased(new InstantCommand(lighting::yellow, lighting));
+        // manual tube control
+        new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_4)
+             .whenPressed(new ParallelCommandGroup(
+                new InstantCommand(tube::downManual, tube),
+                new InstantCommand(collector::out, collector)
+             ))       
+            .whenReleased(new ParallelCommandGroup(
+                    new InstantCommand(tube::stop, tube),
+                     new InstantCommand(collector::stop, collector)));
+                    
+        new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_5).whenPressed(new InstantCommand(tube::upManual, tube))
+            .whenReleased(new InstantCommand(tube::stop, tube));
     }
 
     /**
@@ -152,8 +168,8 @@ public class RobotContainer {
 
         SmartDashboard.putData("reset encoders", new InstantCommand(driveLine::resetEncoders, driveLine));
 
-                //SmartDashboard.putData("get distance", new GetSensorDistance());
-        
+        // SmartDashboard.putData("get distance", new GetSensorDistance());
+
         SmartDashboard.putData("shoot (no PID)", new ShootOne(shooter, tube));
         SmartDashboard.putData("shoot (PID)", new Shoot(shooter));
     }
