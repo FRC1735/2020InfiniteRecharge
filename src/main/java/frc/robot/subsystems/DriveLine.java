@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import java.util.logging.Logger;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
@@ -52,6 +53,12 @@ public class DriveLine extends SubsystemBase {
     differentialDrive.setSafetyEnabled(true);
     differentialDrive.setExpiration(0.1);
     differentialDrive.setMaxOutput(1.0);
+
+    leftMotor.setNeutralMode(NeutralMode.Coast);
+    rightMotor.setNeutralMode(NeutralMode.Coast);
+    leftFollower.setNeutralMode(NeutralMode.Coast);
+    rightFollower.setNeutralMode(NeutralMode.Coast);
+
   }
 
   @Override

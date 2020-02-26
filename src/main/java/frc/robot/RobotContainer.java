@@ -65,7 +65,7 @@ public class RobotContainer {
         // Configure the button bindings
         configureButtonBindings();
         driveLine.setDefaultCommand(driveWithJoystickCommand);
-        tube.setDefaultCommand(new OptimizeTube(tube, lighting));
+        //tube.setDefaultCommand(new OptimizeTube(tube, lighting));
         //tube.setDefaultCommand(new LightIfBallDetected(lighting, tube));
         //turret.setDefaultCommand(new ControlTurretWithJoystick(turret, abstractJoystickLeft));
         //lighting.setDefaultCommand(new InstantCommand(lighting::green, lighting));
@@ -90,7 +90,7 @@ public class RobotContainer {
         //new JoystickButton(joystickLeft, XBoxJoystick.BUMPER_R).whenPressed(new ShootOne(shooter, tube)).whenReleased(new InstantCommand(shooter::disengage, shooter));//.withTimeout(0.25));
 
         // with PID
-        new JoystickButton(joystickLeft, XBoxJoystick.BUMPER_R).whenPressed(new Shoot(shooter))
+        new JoystickButton(joystickLeft, XBoxJoystick.BUMPER_R).whenPressed(new ShootOne(shooter, tube))
                 .whenReleased(new InstantCommand(shooter::disengage, shooter));
 
         // tube

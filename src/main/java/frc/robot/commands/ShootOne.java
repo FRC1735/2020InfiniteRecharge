@@ -7,6 +7,9 @@
 
 package frc.robot.commands;
 
+import java.util.logging.Logger;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Tube;
@@ -30,12 +33,17 @@ public class ShootOne extends CommandBase {
   @Override
   public void initialize() {
     //tube.up();
-    shooter.engage();
+    //shooter.engage();
+    //shooter.setVelocity(1000 * .75);
+    //shooter.engage();
+
+    shooter.setVelocity(500 * .85);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    SmartDashboard.putNumber("shooter v", shooter.getVelocity());
   }
 
   // Called once the command ends or is interrupted.
