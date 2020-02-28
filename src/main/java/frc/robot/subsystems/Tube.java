@@ -34,11 +34,15 @@ public class Tube extends SubsystemBase {
   }
 
   public void downManual() {
-    down(-MANUAL_CONTROL_SPEED);
+    down(MANUAL_CONTROL_SPEED);
+  }
+
+  public void downHalfSpeed() {
+    down(0.5);
   }
 
   public void upManual() {
-    up(MANUAL_CONTROL_SPEED);
+    up(-MANUAL_CONTROL_SPEED);
   }
 
   public void downOptimize() {

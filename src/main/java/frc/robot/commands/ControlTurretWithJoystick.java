@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.joysticks.AbstractJoystick;
 import frc.robot.subsystems.Turret;
@@ -28,12 +29,21 @@ public class ControlTurretWithJoystick extends CommandBase {
   @Override
   public void execute() {
     double v = joystick.getX();
-    if (Math.abs(v) > 0.1) {
-      turret.set(v);
-    } else {
-      turret.stop();
-    }
+    SmartDashboard.putNumber("attack x", v);
+    /*
+    double encoderValue = turret.getEncoderValue();
 
+    if (encoderValue > 7661 && encoderValue < 12695) {
+      */
+      if (Math.abs(v) > 0.1) {
+        turret.set(v);
+        return;
+      } else {
+        turret.stop();
+      }
+    /*}
+
+    turret.stop();*/
   }
 
   // Called once the command ends or is interrupted.

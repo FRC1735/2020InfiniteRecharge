@@ -105,8 +105,9 @@ public class DriveLine extends SubsystemBase {
 
   public double getDistanceTraveled() {
     double encoderLeftValue = leftMotor.getSelectedSensorPosition() - LEFT_ENCODER_OFFSET;
-    double encoderRightValue = rightMotor.getSelectedSensorPosition();
-    return (Math.abs(encoderLeftValue) + Math.abs(encoderRightValue)) / 2;
+    //double encoderRightValue = rightMotor.getSelectedSensorPosition();
+    //return (Math.abs(encoderLeftValue) + Math.abs(encoderRightValue)) / 2;
+    return Math.abs(encoderLeftValue);
   }
   public void stop() {
     differentialDrive.stopMotor();

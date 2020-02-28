@@ -16,28 +16,21 @@ import frc.robot.subsystems.Tube;
 
 public class ShootOne extends CommandBase {
   Shooter shooter;
-  Tube tube;
 
   /**
    * Creates a new ShootOne.
    */
-  public ShootOne(Shooter shooter, Tube tube) {
+  public ShootOne(Shooter shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter);
 
     this.shooter = shooter;
-    this.tube = tube;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //tube.up();
-    //shooter.engage();
-    //shooter.setVelocity(1000 * .75);
-    //shooter.engage();
-
-    shooter.setVelocity(500 * .85);
+    shooter.engage();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -50,7 +43,6 @@ public class ShootOne extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     shooter.disengage();
-    //tube.stop();
   }
 
   // Returns true when the command should end.

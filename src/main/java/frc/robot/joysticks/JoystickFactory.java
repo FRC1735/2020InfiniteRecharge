@@ -9,7 +9,7 @@ public class JoystickFactory {
             return new XBoxJoystick(joystick, role);
         } else {
             // TODO - define other joysticks
-            return null;
+            return new Attack3Joystick(joystick, role);
         }
     }
 }
