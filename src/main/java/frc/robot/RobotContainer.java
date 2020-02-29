@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ControlTurretWithJoystick;
+import frc.robot.commands.ControlTurretWithLimelight;
 import frc.robot.commands.DeployCollector;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveWithJoystick;
@@ -66,16 +67,16 @@ public class RobotContainer {
     private final Turret turret = new Turret();
     private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
     private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(abstractJoystickLeft, driveLine);
+    private final ControlTurretWithLimelight controlTurretWithLimelightCommand = new ControlTurretWithLimelight(turret, limelight);
 
-    /**
+        /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
         // Configure the button bindings
         configureButtonBindings();
         driveLine.setDefaultCommand(driveWithJoystickCommand);
-        tube.setDefaultCommand(new OptimizeTube(tube, lighting));
-        // tube.setDefaultCommand(new LightIfBallDetected(lighting, tube));
+        //tube.setDefaultCommand(new OptimizeTube(tube, lighting));
         turret.setDefaultCommand(new ControlTurretWithJoystick(turret, abstractJoystickRight));
         //lighting.setDefaultCommand(new InstantCommand(lighting::green, lighting));
 
@@ -140,11 +141,13 @@ public class RobotContainer {
                                 .whenReleased(new InstantCommand(tube::stop, tube));
 
         // "shoot with limelight turret control"
-        // TODO 
-                        /*
-                        new JoystickButton(attack3Joystick, Attack3Joystick.B
-                                .whenPressed()
-                        */                  
+        /*
+        new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_2)
+                        .whenPressed(new ParallelCommandGroup(
+                                controlTurretWithLimelightCommand,
+                                new InstantCommand(shooter::engage, shooter)
+                                )).cancelWhenRelease(controlTurretWithLimelightCommand);
+                                 */
 
         // "unshoot"
         new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_4)
@@ -169,8 +172,6 @@ public class RobotContainer {
             .whenReleased(new ParallelCommandGroup(
                     new InstantCommand(tube::stop, tube),
                      new InstantCommand(collector::stop, collector)));
-                    
-
     }
 
     /**
@@ -184,6 +185,7 @@ public class RobotContainer {
     }
 
     private void intializeSmartDashBoard() {
+            /*
         SmartDashboard.putNumber("Turn Angle", 90);
 
         SmartDashboard.putData("Turn",
@@ -194,9 +196,10 @@ public class RobotContainer {
         SmartDashboard.putNumber("Turn P", 0.2);
         SmartDashboard.putNumber("Turn I", 0.1);
         SmartDashboard.putNumber("Turn D", 0.5);
-
+        */
         // this is an example and good use case for the "inline command" feature they
-        // added this year
+                // added this year
+        /*
         SmartDashboard.putData("Reset Gyro", new InstantCommand(driveLine::zeroYaw, driveLine));
 
         SmartDashboard.putNumber("Drive Inches", 0);
@@ -204,10 +207,11 @@ public class RobotContainer {
         SmartDashboard.putData("Drive", new DriveDistance(driveLine, SmartDashboard.getNumber("Drive Inches", 0)));
 
         SmartDashboard.putData("reset encoders", new InstantCommand(driveLine::resetEncoders, driveLine));
-
+        */
         // SmartDashboard.putData("get distance", new GetSensorDistance());
-
+        /*
         SmartDashboard.putData("shoot (no PID)", new ShootOne(shooter));
         SmartDashboard.putData("shoot (PID)", new Shoot(shooter));
+        */
     }
 }
