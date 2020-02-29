@@ -13,17 +13,21 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.sensors.DistanceSensorGroup;
 
 public class Collector extends SubsystemBase {
   private WPI_VictorSPX motor;
   private DoubleSolenoid solenoid;
   private double SPEED = 1;
+  private DistanceSensorGroup distanceSensors;
+
   /*
    * Creates a new Collector.
    */
-  public Collector() {
+  public Collector(DistanceSensorGroup distanceSensors) {
     motor = new WPI_VictorSPX(1);
     solenoid = new DoubleSolenoid(0, 1);
+    this.distanceSensors = distanceSensors;
   }
 
   @Override
@@ -32,7 +36,10 @@ public class Collector extends SubsystemBase {
   }
 
   public void in() {
-    // TODO - gate based on sensor status, if both are active 
+    // TODO - gate based on sensor status, if both are active don't pull in
+    if (distanceSensors.isPowerCellDetected(0) && distanceSensors.isPowerCellDetected(1)) {
+      return;
+    }
     motor.set(-SPEED);
   }
 

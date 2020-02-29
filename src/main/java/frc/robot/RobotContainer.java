@@ -31,6 +31,7 @@ import frc.robot.joysticks.Attack3Joystick;
 import frc.robot.joysticks.JoystickFactory;
 import frc.robot.joysticks.Role;
 import frc.robot.joysticks.XBoxJoystick;
+import frc.robot.sensors.DistanceSensorGroup;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.DriveLine;
 import frc.robot.subsystems.Lighting;
@@ -58,13 +59,14 @@ public class RobotContainer {
     private AbstractJoystick abstractJoystickLeft = joystickFactory.get(xBoxJoystick, Role.DRIVER_LEFT);
     private AbstractJoystick abstractJoystickRight = joystickFactory.get(attack3Joystick, Role.OPERATOR);
 
-    // The robot's subsystems and commands are defined here...
+        // The robot's subsystems and commands are defined here...
+    private final DistanceSensorGroup distanceSensors = new DistanceSensorGroup(0, 1, 2, 3, 4);
     private final DriveLine driveLine = new DriveLine();
     private final Lighting lighting = new Lighting();
-    private final Collector collector = new Collector();
+    private final Collector collector = new Collector(distanceSensors);
     private final Shooter shooter = new Shooter();
     private final LimeLight limelight = new LimeLight();
-    private final Tube tube = new Tube();
+    private final Tube tube = new Tube(distanceSensors);
     private final Turret turret = new Turret();
     private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(abstractJoystickLeft, driveLine);
         //private final ControlTurretWithLimelight controlTurretWithLimelightCommand = new ControlTurretWithLimelight(turret, limelight);

@@ -28,9 +28,9 @@ public class Tube extends SubsystemBase {
   /**
    * Creates a new Tube.
    */
-  public Tube() {
+  public Tube(DistanceSensorGroup distanceSensorGroup) {
     motor = new WPI_VictorSPX(5);
-    distanceSensorGroup = new DistanceSensorGroup(0, 1, 2, 3, 4);
+    this.distanceSensorGroup = distanceSensorGroup;
   }
 
   public void downManual() {
