@@ -35,6 +35,9 @@ public class LimeLight extends SubsystemBase {
     tx0 = limelight.getEntry("tx0"); // one of the three raw tx values
     tx1 = limelight.getEntry("tx1"); // one of the three raw tx values
     tx2 = limelight.getEntry("tx2"); //one of the three raw tx values
+
+    // turn off LED by default
+    setLedMode(LedMode.FORCE_OFF);
     }
 
   @Override

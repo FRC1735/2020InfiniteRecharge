@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.ControlTurretWithJoystick;
 import frc.robot.commands.DeployCollector;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveWithJoystick;
@@ -34,6 +35,7 @@ import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.DriveLine;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Lighting;
+import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Tube;
 import frc.robot.subsystems.Turret;
@@ -59,6 +61,7 @@ public class RobotContainer {
     private final Lighting lighting = new Lighting();
     private final Collector collector = new Collector();
     private final Shooter shooter = new Shooter();
+    private final LimeLight limelight = new LimeLight();
     private final Tube tube = new Tube();
     private final Turret turret = new Turret();
     private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
@@ -73,7 +76,7 @@ public class RobotContainer {
         driveLine.setDefaultCommand(driveWithJoystickCommand);
         // tube.setDefaultCommand(new OptimizeTube(tube, lighting));
         // tube.setDefaultCommand(new LightIfBallDetected(lighting, tube));
-         //turret.setDefaultCommand(new ControlTurretWithJoystick(turret, abstractJoystickRight));
+        turret.setDefaultCommand(new ControlTurretWithJoystick(turret, abstractJoystickRight));
         lighting.setDefaultCommand(new InstantCommand(lighting::green, lighting));
 
         intializeSmartDashBoard();
@@ -137,7 +140,14 @@ public class RobotContainer {
         new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_1)
                                 .whenPressed(new InstantCommand(tube::upManual, tube))
                                 .whenReleased(new InstantCommand(tube::stop, tube));
-        
+
+        // "shoot with limelight turret control"
+        // TODO 
+                        /*
+                        new JoystickButton(attack3Joystick, Attack3Joystick.B
+                                .whenPressed()
+                        */                  
+
         // "unshoot"
         new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_4)
                 .whenPressed(new ParallelCommandGroup(
