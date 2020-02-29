@@ -30,7 +30,7 @@ public class Tube extends SubsystemBase {
    */
   public Tube() {
     motor = new WPI_VictorSPX(5);
-    distanceSensorGroup = new DistanceSensorGroup(0, 1, 2); // TODO RoboRio only has 4 slots, it really seems like we only 2 looking at how the OptimizeTube command works
+    distanceSensorGroup = new DistanceSensorGroup(0, 1, 2, 3, 4);
   }
 
   public void downManual() {

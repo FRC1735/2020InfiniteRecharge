@@ -18,11 +18,10 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ControlTurretWithJoystick;
-import frc.robot.commands.ControlTurretWithLimelight;
 import frc.robot.commands.DeployCollector;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveWithJoystick;
-import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.OptimizeTube;
 import frc.robot.commands.ShootOne;
 import frc.robot.joysticks.AbstractJoystick;
 import frc.robot.joysticks.Attack3Joystick;
@@ -31,7 +30,6 @@ import frc.robot.joysticks.Role;
 import frc.robot.joysticks.XBoxJoystick;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.DriveLine;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.Lighting;
 import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.Shooter;
@@ -56,7 +54,6 @@ public class RobotContainer {
     private AbstractJoystick abstractJoystickRight = joystickFactory.get(attack3Joystick, Role.OPERATOR);
 
     // The robot's subsystems and commands are defined here...
-    private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
     private final DriveLine driveLine = new DriveLine();
     private final Lighting lighting = new Lighting();
     private final Collector collector = new Collector();
@@ -64,9 +61,8 @@ public class RobotContainer {
     private final LimeLight limelight = new LimeLight();
     private final Tube tube = new Tube();
     private final Turret turret = new Turret();
-    private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
     private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(abstractJoystickLeft, driveLine);
-    private final ControlTurretWithLimelight controlTurretWithLimelightCommand = new ControlTurretWithLimelight(turret, limelight);
+    //private final ControlTurretWithLimelight controlTurretWithLimelightCommand = new ControlTurretWithLimelight(turret, limelight);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -75,7 +71,7 @@ public class RobotContainer {
         // Configure the button bindings
         configureButtonBindings();
         driveLine.setDefaultCommand(driveWithJoystickCommand);
-        //tube.setDefaultCommand(new OptimizeTube(tube, lighting));
+        tube.setDefaultCommand(new OptimizeTube(tube, lighting));
         turret.setDefaultCommand(new ControlTurretWithJoystick(turret, abstractJoystickRight));
         //lighting.setDefaultCommand(new InstantCommand(lighting::green, lighting));
 
@@ -178,15 +174,15 @@ public class RobotContainer {
      *
      * @return the command to run in autonomous
      */
-    public Command getAutonomousCommand() {
-        // An ExampleCommand will run in autonomous
-        // would need to have controlTurretWithLimelight running
-        return new SequentialCommandGroup(
-                new ParallelCommandGroup(
-                        new InstantCommand(shooter::engage, shooter),
-                        new InstantCommand(tube::upManual, tube)
-                ).withTimeout(autoWaitChooser.getSelected()), // need to delay here based on choosable sender value
-                new DriveDistance(driveLine, 48)); // TODO - is 48 enough to cross line?
+        public Command getAutonomousCommand() {
+                // An ExampleCommand will run in autonomous
+                // would need to have controlTurretWithLimelight running
+                return new SequentialCommandGroup(
+                                new ParallelCommandGroup(new InstantCommand(shooter::engage, shooter),
+                                                new InstantCommand(tube::upManual, tube))
+                                                                .withTimeout(autoWaitChooser.getSelected()), // need to delay here based on choosable sender value
+                                                new DriveDistance(driveLine, 48)); // TODO - is 48 enoug
+                   
     }
 
     private void intializeSmartDashBoard() {

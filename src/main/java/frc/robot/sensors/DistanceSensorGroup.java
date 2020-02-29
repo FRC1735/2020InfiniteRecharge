@@ -21,11 +21,13 @@ public class DistanceSensorGroup {
     double MIN_DETECTION_THRESHOLD_CM = 3.5;
     double MAX_DETECTION_THRESTHOLD_CM = 11;
 
-    public DistanceSensorGroup(int portA, int portB, int portC) {
+    public DistanceSensorGroup(int portA, int portB, int portC, int portD, int portE) {
         sensors = new ArrayList();
         sensors.add(new DistanceSensor(portA));
         sensors.add(new DistanceSensor(portB));
-        //sensors.add(new DistanceSensor(portC));
+        sensors.add(new DistanceSensor(portC));
+        sensors.add(new DistanceSensor(portD));
+        sensors.add(new DistanceSensor(portE));
     }
 
     public List<Double> getDistances() {
