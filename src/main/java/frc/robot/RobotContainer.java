@@ -68,7 +68,7 @@ public class RobotContainer {
     private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(abstractJoystickLeft, driveLine);
     private final ControlTurretWithLimelight controlTurretWithLimelightCommand = new ControlTurretWithLimelight(turret, limelight);
 
-        /**
+    /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
@@ -185,21 +185,28 @@ public class RobotContainer {
                 new ParallelCommandGroup(
                         new InstantCommand(shooter::engage, shooter),
                         new InstantCommand(tube::upManual, tube)
-                ).withTimeout(1), // need to delay here based on choosable sender value
+                ).withTimeout(autoWaitChooser.getSelected()), // need to delay here based on choosable sender value
                 new DriveDistance(driveLine, 48)); // TODO - is 48 enough to cross line?
     }
 
     private void intializeSmartDashBoard() {
-            /*
-        SmartDashboard.putNumber("Turn Angle", 90);
+        autoWaitChooser.setDefaultOption("1", 1);
+        autoWaitChooser.addOption("2", 2);
+        autoWaitChooser.addOption("3", 3);
+        autoWaitChooser.addOption("4", 4);
+        autoWaitChooser.addOption("5", 5);
+        autoWaitChooser.addOption("6", 6);
+                        
+                /*
+                SmartDashboard.putNumber("Turn Angle", 90);
 
         SmartDashboard.putData("Turn",
-                new TurnToAngle(driveLine, () -> SmartDashboard.getNumber("Turn Angle", 90),
-                        () -> SmartDashboard.getNumber("Turn P", 0), () -> SmartDashboard.getNumber("Turn I", 0),
-                        () -> SmartDashboard.getNumber("Turn D", 0)));
-
-        SmartDashboard.putNumber("Turn P", 0.2);
-        SmartDashboard.putNumber("Turn I", 0.1);
+                new TurnToAngle(driveLine, () -> SmartDashboard.getNum
+                
+                                () -> SmartDashboard.get
+                
+                SmartDashboard.putNumber("Turn P", 0.2);
+                SmartDashboard.putNumber("Turn I", 0.1);
         SmartDashboard.putNumber("Turn D", 0.5);
         */
         // this is an example and good use case for the "inline command" feature they
