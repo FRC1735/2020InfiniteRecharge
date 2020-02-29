@@ -36,7 +36,7 @@ public class ShootOne extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putNumber("shooter v", shooter.getVelocity());
+    //SmartDashboard.putNumber("shooter v", shooter.getVelocity());
   }
 
   // Called once the command ends or is interrupted.

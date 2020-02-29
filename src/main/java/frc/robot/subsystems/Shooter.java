@@ -69,7 +69,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void engageReversed() {
-    motor.set(ControlMode.PercentOutput, -0.5);
+    motor.set(ControlMode.PercentOutput, -0.25);
   }
 
   public void disengage() {

@@ -52,7 +52,7 @@ public class OptimizeTube extends CommandBase {
       lighting.blue();
     } else {
       tube.stop();
-      lighting.yellow();
+      lighting.green();
     }
   }
 

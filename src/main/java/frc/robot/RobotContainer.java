@@ -12,10 +12,12 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ControlTurretWithJoystick;
 import frc.robot.commands.DeployCollector;
@@ -23,6 +25,7 @@ import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.OptimizeTube;
 import frc.robot.commands.ShootOne;
+import frc.robot.commands.TubeUp;
 import frc.robot.joysticks.AbstractJoystick;
 import frc.robot.joysticks.Attack3Joystick;
 import frc.robot.joysticks.JoystickFactory;
@@ -44,9 +47,11 @@ import frc.robot.subsystems.Turret;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-    private SendableChooser<Integer> autoWaitChooser = new SendableChooser<Integer>();
-     
-    private Joystick xBoxJoystick = new Joystick(0);
+    private SendableChooser<Integer> autoShootTimeChooser = new SendableChooser<Integer>();
+    private SendableChooser<Integer> autoDoNothingTimeChooser = new SendableChooser<Integer>();
+    private SendableChooser<Integer> autoDriveTimeChooser = new SendableChooser<Integer>();
+
+        private Joystick xBoxJoystick = new Joystick(0);
     private Joystick attack3Joystick = new Joystick(1);       
 
     JoystickFactory joystickFactory = new JoystickFactory();
@@ -62,8 +67,8 @@ public class RobotContainer {
     private final Tube tube = new Tube();
     private final Turret turret = new Turret();
     private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(abstractJoystickLeft, driveLine);
-    //private final ControlTurretWithLimelight controlTurretWithLimelightCommand = new ControlTurretWithLimelight(turret, limelight);
-
+        //private final ControlTurretWithLimelight controlTurretWithLimelightCommand = new ControlTurretWithLimelight(turret, limelight);
+    
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -132,7 +137,7 @@ public class RobotContainer {
         
         // "shoot" - move the tube up, the shooter should already be spinning
         new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_1)
-                                .whenPressed(new InstantCommand(tube::upManual, tube))
+                                .whileHeld(tube::upManual, tube)
                                 .whenReleased(new InstantCommand(tube::stop, tube));
 
         // "shoot with limelight turret control"
@@ -146,7 +151,7 @@ public class RobotContainer {
 
         // "unshoot"
         new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_4)
-                .whenPressed(new ParallelCommandGroup(
+                .whileHeld(new ParallelCommandGroup(
                         new InstantCommand(shooter::engageReversed, shooter),
                         new InstantCommand(tube::downHalfSpeed, tube),
                         new InstantCommand(collector::out, collector)                        
@@ -160,7 +165,7 @@ public class RobotContainer {
         
         // manual tube control
         new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_5)
-             .whenPressed(new ParallelCommandGroup(
+             .whileHeld(new ParallelCommandGroup(
                 new InstantCommand(tube::downManual, tube),
                 new InstantCommand(collector::out, collector)
              ))       
@@ -178,21 +183,51 @@ public class RobotContainer {
                 // An ExampleCommand will run in autonomous
                 // would need to have controlTurretWithLimelight running
                 return new SequentialCommandGroup(
-                                new ParallelCommandGroup(new InstantCommand(shooter::engage, shooter),
-                                                new InstantCommand(tube::upManual, tube))
-                                                                .withTimeout(autoWaitChooser.getSelected()), // need to delay here based on choosable sender value
-                                                new DriveDistance(driveLine, 48)); // TODO - is 48 enoug
+                                new ParallelCommandGroup(new ShootOne(shooter),
+                                                new TubeUp(tube)).withTimeout(autoShootTimeChooser.getSelected()),
+                                new WaitCommand(autoDoNothingTimeChooser.getSelected()), 
+                                new DriveDistance(driveLine, -48).withTimeout(autoDriveTimeChooser.getSelected())
+
+                                );
                    
     }
 
     private void intializeSmartDashBoard() {
-        autoWaitChooser.setDefaultOption("1", 1);
-        autoWaitChooser.addOption("2", 2);
-        autoWaitChooser.addOption("3", 3);
-        autoWaitChooser.addOption("4", 4);
-        autoWaitChooser.addOption("5", 5);
-        autoWaitChooser.addOption("6", 6);
-                        
+        autoShootTimeChooser.setDefaultOption("1", 1);
+        autoShootTimeChooser.addOption("2", 2);
+        autoShootTimeChooser.addOption("3", 3);
+        autoShootTimeChooser.addOption("4", 4);
+        autoShootTimeChooser.addOption("5", 5);
+        autoShootTimeChooser.addOption("6", 6);
+        SmartDashboard.putData("Auto Shoot Time", autoShootTimeChooser);
+        
+        autoDoNothingTimeChooser.setDefaultOption("1", 1);
+        autoDoNothingTimeChooser.addOption("2", 2);
+        autoDoNothingTimeChooser.addOption("3", 3);
+        autoDoNothingTimeChooser.addOption("4", 4);
+        autoDoNothingTimeChooser.addOption("5", 5);
+        autoDoNothingTimeChooser.addOption("6", 6);
+        SmartDashboard.putData("Auto Do Nothing Time", autoDoNothingTimeChooser);
+                
+        autoDriveTimeChooser.setDefaultOption("1", 1);
+        autoDriveTimeChooser.addOption("2", 2);
+        autoDriveTimeChooser.addOption("3", 3);
+        autoDriveTimeChooser.addOption("4", 4);
+        autoDriveTimeChooser.addOption("5", 5);
+        autoDriveTimeChooser.addOption("6", 6);
+        SmartDashboard.putData("Auto Drive Time", autoDriveTimeChooser);
+             
+        //
+        // !!! this is copied from the real auto command above, if you change this change that!!!!
+        //
+        SmartDashboard.putData("AUTO TEST", new SequentialCommandGroup(
+                                new ParallelCommandGroup(new ShootOne(shooter),
+                                                new TubeUp(tube)).withTimeout(autoShootTimeChooser.getSelected()),
+                                new WaitCommand(autoDoNothingTimeChooser.getSelected()), 
+                                new DriveDistance(driveLine, -48).withTimeout(autoDriveTimeChooser.getSelected())
+
+                                ));
+        
                 /*
                 SmartDashboard.putNumber("Turn Angle", 90);
 

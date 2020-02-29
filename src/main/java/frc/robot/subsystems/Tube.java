@@ -38,7 +38,7 @@ public class Tube extends SubsystemBase {
   }
 
   public void downHalfSpeed() {
-    down(0.5);
+    down(0.75);
   }
 
   public void upManual() {
@@ -46,11 +46,11 @@ public class Tube extends SubsystemBase {
   }
 
   public void downOptimize() {
-    down(-OPTIMIZE_TUBE_SPEED);
+    down(OPTIMIZE_TUBE_SPEED);
   }
 
   public void upOptimize() {
-    up(OPTIMIZE_TUBE_SPEED);
+    up(-OPTIMIZE_TUBE_SPEED);
   }
 
   private void down(double speed) {

@@ -32,14 +32,14 @@ public class DriveDistance extends PIDCommand {
         // This should return the measurement
         () -> driveLine.getDistanceTraveled(),
         () -> {
-          double target = (SmartDashboard.getNumber("Drive Inches", 0)) * DriveLine.ENCODER_TICK_PER_INCH;
-          System.out.println("target: " + target);
+          double target = distanceInches * DriveLine.ENCODER_TICK_PER_INCH;
+          //System.out.println("target: " + target);
           return target;
         },
         // This uses the output
         output -> {
           // Use the output here
-          System.out.println("output: " + output);
+          //System.out.println("output: " + output);
           double clampedOutput = MathUtil.clamp(output, -.3, .3);
           // driveLine.arcadeDrive(clampedOutput, clampedOutput);
           driveLine.set(ControlMode.PercentOutput, clampedOutput, -clampedOutput);
