@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpiutil.math.MathUtil;
+import frc.robot.Constants;
 import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.Turret;
 
@@ -23,12 +24,10 @@ public class ControlTurretWithLimelight extends PIDCommand {
   /**
    * Creates a new ControlTurretWithLimelight.
    */
-  public ControlTurretWithLimelight(Turret turret, LimeLight limeLight, final DoubleSupplier p, final DoubleSupplier i,
-      final DoubleSupplier d) {
+  public ControlTurretWithLimelight(Turret turret, LimeLight limeLight) {
     super(
         // The controller that the command will use
-        new PIDController(SmartDashboard.getNumber("Turret P", 0), 
-            SmartDashboard.getNumber("Turret I", 0), SmartDashboard.getNumber("Turret D", 0)),
+        new PIDController(0, 0, 0), // TODO replace with real values when they are determined
         // This should return the measurement
         () -> {
           double tx = limeLight.getTx();
@@ -52,7 +51,6 @@ public class ControlTurretWithLimelight extends PIDCommand {
           // Use the output here
         });
 
-    System.out.println("P: " + p.getAsDouble());
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(turret, limeLight);
 
@@ -64,19 +62,19 @@ public class ControlTurretWithLimelight extends PIDCommand {
   @Override
   public void execute() {
     super.execute();
-    getController().setP(SmartDashboard.getNumber("Turret P", 0));
-    getController().setI(SmartDashboard.getNumber("Turret I", 0));
-    getController().setD(SmartDashboard.getNumber("Turret D", 0));
-    System.out.println("P: " + getController().getP());
-    System.out.println("I: " + getController().getI());
-    System.out.println("D: " + getController().getD());
-
+    if (Constants.TUNING_MODE) {
+      getController().setP(SmartDashboard.getNumber("Turret P", 0));
+      getController().setI(SmartDashboard.getNumber("Turret I", 0));
+      getController().setD(SmartDashboard.getNumber("Turret D", 0));
+      System.out.println("P: " + getController().getP());
+      System.out.println("I: " + getController().getI());
+      System.out.println("D: " + getController().getD());
+    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //System.out.println("P: " + getController().getP());
     return false; //getController().atSetpoint();
   }
 }

@@ -41,7 +41,7 @@ public class OptimizeTube extends CommandBase {
   public void execute() {
     DistanceSensorGroup sensors = tube.getDistanceSensorGroup();
 
-    SmartDashboard.putNumber("distance sensor 1", sensors.getDistances().get(1));
+    //SmartDashboard.putNumber("distance sensor 1", sensors.getDistances().get(1));
     
     if (sensors.isPowerCellDetected(1)) {
       logger.info("Tube is full!");

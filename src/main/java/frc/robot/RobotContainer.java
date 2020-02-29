@@ -74,10 +74,10 @@ public class RobotContainer {
         // Configure the button bindings
         configureButtonBindings();
         driveLine.setDefaultCommand(driveWithJoystickCommand);
-        // tube.setDefaultCommand(new OptimizeTube(tube, lighting));
+        tube.setDefaultCommand(new OptimizeTube(tube, lighting));
         // tube.setDefaultCommand(new LightIfBallDetected(lighting, tube));
         turret.setDefaultCommand(new ControlTurretWithJoystick(turret, abstractJoystickRight));
-        lighting.setDefaultCommand(new InstantCommand(lighting::green, lighting));
+        //lighting.setDefaultCommand(new InstantCommand(lighting::green, lighting));
 
         intializeSmartDashBoard();
     }
@@ -99,11 +99,10 @@ public class RobotContainer {
         // when pressed: deploy collector, suck in and optimize tue
         // when released: stop collector and pull in
         new JoystickButton(xBoxJoystick, XBoxJoystick.BUTTON_A)
-                .whenPressed(new ParallelCommandGroup(
+                .whenPressed(
                         new SequentialCommandGroup(
                                 new DeployCollector(collector, Value.kForward).withTimeout(0.08),
-                                new InstantCommand(collector::in, collector)),
-                        new OptimizeTube(tube, lighting))
+                                new InstantCommand(collector::in, collector))
                 )
                 .whenReleased(new SequentialCommandGroup(
                         new InstantCommand(collector::stop, collector),
@@ -114,8 +113,7 @@ public class RobotContainer {
         // when pressed: suck in, optimize tube
         new JoystickButton(xBoxJoystick, XBoxJoystick.BUTTON_X)
                 .whenPressed(new ParallelCommandGroup(
-                        new InstantCommand(collector::in, collector),
-                        new OptimizeTube(tube, lighting)
+                        new InstantCommand(collector::in, collector)
                 ))
                 .whenReleased(new InstantCommand(collector::stop, collector));
 
