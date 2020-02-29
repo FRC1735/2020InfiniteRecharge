@@ -121,8 +121,10 @@ public class RobotContainer {
         // reverse collector
         new JoystickButton(xBoxJoystick, XBoxJoystick.BUTTON_B)
                 .whenPressed(new InstantCommand(collector::out, collector))
-                .whenReleased(new InstantCommand(collector::stop, collector));
+                                .whenReleased(new InstantCommand(collector::stop, collector));
                 
+        new JoystickButton(xBoxJoystick, XBoxJoystick.BUTTON_START)
+                .whenPressed(new InstantCommand(limelight::ledOff, limelight));
 
                 /*
         new JoystickButton(xBoxJoystick, XBoxJoystick.BUTTON_B)
@@ -184,10 +186,9 @@ public class RobotContainer {
                 // would need to have controlTurretWithLimelight running
                 return new SequentialCommandGroup(
                                 new ParallelCommandGroup(new ShootOne(shooter),
-                                                new TubeUp(tube)).withTimeout(autoShootTimeChooser.getSelected()),
+                                                new SequentialCommandGroup(new WaitCommand(1), new TubeUp(tube))).withTimeout(autoShootTimeChooser.getSelected()),
                                 new WaitCommand(autoDoNothingTimeChooser.getSelected()), 
                                 new DriveDistance(driveLine, -48).withTimeout(autoDriveTimeChooser.getSelected())
-
                                 );
                    
     }
@@ -222,10 +223,9 @@ public class RobotContainer {
         //
         SmartDashboard.putData("AUTO TEST", new SequentialCommandGroup(
                                 new ParallelCommandGroup(new ShootOne(shooter),
-                                                new TubeUp(tube)).withTimeout(autoShootTimeChooser.getSelected()),
+                                                new SequentialCommandGroup(new WaitCommand(1), new TubeUp(tube))).withTimeout(3),
                                 new WaitCommand(autoDoNothingTimeChooser.getSelected()), 
                                 new DriveDistance(driveLine, -48).withTimeout(autoDriveTimeChooser.getSelected())
-
                                 ));
         
                 /*

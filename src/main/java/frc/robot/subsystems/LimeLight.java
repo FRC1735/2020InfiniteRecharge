@@ -38,11 +38,12 @@ public class LimeLight extends SubsystemBase {
 
     // turn off LED by default
     setLedMode(LedMode.FORCE_OFF);
-    }
+  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    ledOff();
   }
 
   public double getTv() {
@@ -76,6 +77,10 @@ public class LimeLight extends SubsystemBase {
 
   public void setCameraMode(final int cameraMode) {
     limelight.getEntry("camMode").setNumber(cameraMode);
+  }
+
+  public void ledOff() {
+    setLedMode(LedMode.FORCE_OFF);
   }
 
   public double getDistanceToTarget() {

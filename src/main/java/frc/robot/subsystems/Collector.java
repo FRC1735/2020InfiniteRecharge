@@ -32,6 +32,7 @@ public class Collector extends SubsystemBase {
   }
 
   public void in() {
+    // TODO - gate based on sensor status, if both are active 
     motor.set(-SPEED);
   }
 

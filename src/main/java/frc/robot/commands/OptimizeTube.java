@@ -7,9 +7,12 @@
 
 package frc.robot.commands;
 
+import java.util.List;
 import java.util.logging.Logger;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.sensors.DistanceSensor;
 import frc.robot.sensors.DistanceSensorGroup;
 import frc.robot.subsystems.Lighting;
 import frc.robot.subsystems.Tube;
@@ -39,6 +42,11 @@ public class OptimizeTube extends CommandBase {
   @Override
   public void execute() {
     DistanceSensorGroup sensors = tube.getDistanceSensorGroup();
+    List<Double> distances = sensors.getDistances();
+
+    for (int i = 0; i < distances.size(); i++) {
+      SmartDashboard.putNumber("Distance Sensor " + i, distances.get(i));
+    }
 
     // verify that the top sensor is in analog 1
     if (sensors.isPowerCellDetected(1)) {
