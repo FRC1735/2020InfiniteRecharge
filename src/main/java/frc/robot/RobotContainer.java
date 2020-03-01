@@ -32,6 +32,7 @@ import frc.robot.joysticks.JoystickFactory;
 import frc.robot.joysticks.Role;
 import frc.robot.joysticks.XBoxJoystick;
 import frc.robot.sensors.DistanceSensorGroup;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.DriveLine;
 import frc.robot.subsystems.Lighting;
@@ -68,6 +69,7 @@ public class RobotContainer {
     private final LimeLight limelight = new LimeLight();
     private final Tube tube = new Tube(distanceSensors);
     private final Turret turret = new Turret();
+    private final Climber climber = new Climber();
     private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(abstractJoystickLeft, driveLine);
         //private final ControlTurretWithLimelight controlTurretWithLimelightCommand = new ControlTurretWithLimelight(turret, limelight);
     
@@ -175,7 +177,12 @@ public class RobotContainer {
              ))       
             .whenReleased(new ParallelCommandGroup(
                     new InstantCommand(tube::stop, tube),
-                     new InstantCommand(collector::stop, collector)));
+                                                new InstantCommand(collector::stop, collector)));
+        
+        // climb - TO BE TESTED
+        new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_10)
+             .whenPressed(new InstantCommand(climber::engage, climber))
+                                .whenReleased(new InstantCommand(climber::disengage, climber));
     }
 
     /**
