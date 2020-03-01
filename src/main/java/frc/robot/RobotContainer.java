@@ -178,11 +178,19 @@ public class RobotContainer {
             .whenReleased(new ParallelCommandGroup(
                     new InstantCommand(tube::stop, tube),
                                                 new InstantCommand(collector::stop, collector)));
+        // climb - deploy - TO BE TESTED
+        new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_6)
+            .whenPressed(new InstantCommand(climber::deployUp, climber))
+                                .whenReleased(new InstantCommand(climber::stopDeploy, climber));
+
+        new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_7)
+            .whenPressed(new InstantCommand(climber::deployDown, climber))
+                                .whenReleased(new InstantCommand(climber::stopDeploy, climber));
         
-        // climb - TO BE TESTED
+        // climb - wench - TO BE TESTED
         new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_10)
-             .whenPressed(new InstantCommand(climber::engage, climber))
-                                .whenReleased(new InstantCommand(climber::disengage, climber));
+             .whenPressed(new InstantCommand(climber::climb, climber))
+                                .whenReleased(new InstantCommand(climber::stop, climber));
     }
 
     /**

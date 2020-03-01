@@ -8,22 +8,24 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climber extends SubsystemBase {
-  private WPI_VictorSPX main;
-  private WPI_VictorSPX follower;
+  private WPI_VictorSPX deployer;
+  private WPI_VictorSPX wench;
 
   /**
    * Creates a new Climber.
    */
   public Climber() {
-    this.main = new WPI_VictorSPX(0); // TODO
-    this.follower = new WPI_VictorSPX(0); // TODO
+    this.deployer = new WPI_VictorSPX(0); // TODO
+    this.wench = new WPI_VictorSPX(0); // TODO
 
-    follower.follow(main);
+    this.deployer.setNeutralMode(NeutralMode.Brake);
+    this.wench.setNeutralMode(NeutralMode.Brake);
   }
 
   @Override
@@ -31,11 +33,28 @@ public class Climber extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void engage() {
-    main.set(ControlMode.PercentOutput, 0.5);
+  public void climb() {
+    wench.set(ControlMode.PercentOutput, 0.5);
   }
 
-  public void disengage() {
-    main.stopMotor();
+  public void deployUp() {
+    deployer.set(ControlMode.PercentOutput, 0.5);
+  }
+
+  public void deployDown() {
+    deployer.set(ControlMode.PercentOutput, -0.5);
+  }
+
+  public void stopDeploy() {
+    deployer.stopMotor();
+  }
+
+  public void stopClimb() {
+    wench.stopMotor();
+  }
+
+  public void stop() {
+    wench.stopMotor();
+    deployer.stopMotor();
   }
 }
