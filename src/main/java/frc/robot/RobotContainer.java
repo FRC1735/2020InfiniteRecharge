@@ -178,7 +178,23 @@ public class RobotContainer {
             .whenReleased(new ParallelCommandGroup(
                     new InstantCommand(tube::stop, tube),
                                                 new InstantCommand(collector::stop, collector)));
-        // climb - deploy - TO BE TESTED
+                // climb - deploy - PUT COLLECTOR DOWN, UNTESTED
+        /*
+        new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_6)
+                .whenPressed(new SequentialCommandGroup(
+                    new DeployCollector(collector, Value.kForward).withTimeout(0.12),
+                    new InstantCommand(climber::deployUp, climber)))
+                .whenReleased(new InstantCommand(climber::stopDeploy, climber));
+
+        new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_7)
+                .whenPressed(new SequentialCommandGroup(
+                    new DeployCollector(collector, Value.kForward).withTimeout(0.12),
+                    new InstantCommand(climber::deployDown, climber)))
+                                .whenReleased(new InstantCommand(climber::stopDeploy, climber));
+                */
+        
+        // OG - tested 
+        
         new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_6)
             .whenPressed(new InstantCommand(climber::deployUp, climber))
                                 .whenReleased(new InstantCommand(climber::stopDeploy, climber));
@@ -186,8 +202,9 @@ public class RobotContainer {
         new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_7)
             .whenPressed(new InstantCommand(climber::deployDown, climber))
                                 .whenReleased(new InstantCommand(climber::stopDeploy, climber));
-        
-        // climb - wench - TO BE TESTED
+
+
+        // climb - wench - TESTED
         new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_10)
              .whenPressed(new InstantCommand(climber::climb, climber))
                                 .whenReleased(new InstantCommand(climber::stop, climber));

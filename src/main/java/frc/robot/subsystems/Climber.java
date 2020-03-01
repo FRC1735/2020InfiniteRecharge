@@ -27,7 +27,7 @@ public class Climber extends SubsystemBase {
     this.deployer = new WPI_VictorSPX(11); // TODO
     this.wench = new CANSparkMax(10, MotorType.kBrushless); // TODO - verify motor type
 
-    this.deployer.setNeutralMode(NeutralMode.Brake);
+    //this.deployer.setNeutralMode(NeutralMode.Brake);
     //this.wench.setNeutralMode(NeutralMode.Brake);
   }
 
@@ -37,15 +37,15 @@ public class Climber extends SubsystemBase {
   }
 
   public void climb() {
-    wench.set(0.5);
+    wench.set(-1);
   }
 
   public void deployUp() {
-    deployer.set(ControlMode.PercentOutput, 0.5);
+    deployer.set(ControlMode.PercentOutput, -1);
   }
 
   public void deployDown() {
-    deployer.set(ControlMode.PercentOutput, -0.5);
+    deployer.set(ControlMode.PercentOutput, 1);
   }
 
   public void stopDeploy() {
