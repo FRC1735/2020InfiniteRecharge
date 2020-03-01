@@ -106,12 +106,12 @@ public class RobotContainer {
         new JoystickButton(xBoxJoystick, XBoxJoystick.BUTTON_A)
                 .whenPressed(
                         new SequentialCommandGroup(
-                                new DeployCollector(collector, Value.kForward).withTimeout(0.08),
+                                new DeployCollector(collector, Value.kForward).withTimeout(0.12),
                                 new InstantCommand(collector::in, collector))
                 )
                 .whenReleased(new SequentialCommandGroup(
                         new InstantCommand(collector::stop, collector),
-                        new DeployCollector(collector, Value.kReverse).withTimeout(0.08)      
+                        new DeployCollector(collector, Value.kReverse).withTimeout(0.12)    
                 ));
              
         // collector II
