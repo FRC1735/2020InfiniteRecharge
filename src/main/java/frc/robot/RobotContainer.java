@@ -109,7 +109,7 @@ public class RobotContainer {
                 )
                 .whenReleased(new SequentialCommandGroup(
                         new InstantCommand(collector::stop, collector),
-                        new DeployCollector(collector, Value.kReverse).withTimeout(0.12)      
+                        new DeployCollector(collector, Value.kReverse).withTimeout(0.12)    
                 ));
              
         // collector II
