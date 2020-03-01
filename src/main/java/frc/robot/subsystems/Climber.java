@@ -24,8 +24,8 @@ public class Climber extends SubsystemBase {
    * Creates a new Climber.
    */
   public Climber() {
-    this.deployer = new WPI_VictorSPX(0); // TODO
-    this.wench = new CANSparkMax(0, MotorType.kBrushless); // TODO - verify motor type
+    this.deployer = new WPI_VictorSPX(11); // TODO
+    this.wench = new CANSparkMax(10, MotorType.kBrushless); // TODO - verify motor type
 
     this.deployer.setNeutralMode(NeutralMode.Brake);
     //this.wench.setNeutralMode(NeutralMode.Brake);
