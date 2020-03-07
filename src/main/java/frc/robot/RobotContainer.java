@@ -209,6 +209,10 @@ public class RobotContainer {
 
 
         // climb - wench - TESTED
+        new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_10).   
+             .whenPressed(new InstantCommand(climber::climb, climber))
+                                .whenReleased(new InstantCommand(climber::stop, climber));
+    }
         new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_10)
              .whenPressed(new InstantCommand(climber::climb, climber))
                                 .whenReleased(new InstantCommand(climber::stop, climber));
