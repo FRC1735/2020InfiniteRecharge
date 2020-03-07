@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ControlTurretWithJoystick;
+import frc.robot.commands.ControlTurretWithLimelight;
 import frc.robot.commands.DeployCollector;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveWithJoystick;
@@ -81,8 +82,11 @@ public class RobotContainer {
         configureButtonBindings();
         driveLine.setDefaultCommand(driveWithJoystickCommand);
         tube.setDefaultCommand(new OptimizeTube(tube, lighting));
+        
         turret.setDefaultCommand(new ControlTurretWithJoystick(turret, abstractJoystickRight));
-        //lighting.setDefaultCommand(new InstantCommand(lighting::green, lighting));
+        //turret.setDefaultCommand(new ControlTurretWithLimelight(turret, limelight));
+        
+                //lighting.setDefaultCommand(new InstantCommand(lighting::green, lighting));
 
         intializeSmartDashBoard();
     }
@@ -208,7 +212,10 @@ public class RobotContainer {
         new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_10)
              .whenPressed(new InstantCommand(climber::climb, climber))
                                 .whenReleased(new InstantCommand(climber::stop, climber));
-    }
+    
+        new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_9)
+                                .toggleWhenPressed(new ControlTurretWithLimelight(turret, limelight));
+       }
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.

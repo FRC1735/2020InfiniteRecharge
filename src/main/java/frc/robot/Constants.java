@@ -16,9 +16,12 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    public static boolean TUNING_MODE = true;
+    public static boolean TUNING_MODE = false;
 
     public static String SD_SHOOTER_PID_P = "Shooter P";
     public static String SD_SHOOTER_PID_I = "Shooter I";
     public static String SD_SHOOTER_PID_D = "Shooter D";
+    public static String SD_TURRET_PID_P = "Turret P";
+    public static String SD_TURRET_PID_I = "Turret I";
+    public static String SD_TURRET_PID_D = "Turret D";
 }
