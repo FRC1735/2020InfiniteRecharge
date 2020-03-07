@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.ControlTurretWithJoystick;
+import frc.robot.commands.ControlTurretWithLimelight;
 import frc.robot.commands.DeployCollector;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveWithJoystick;
@@ -32,6 +33,7 @@ import frc.robot.joysticks.JoystickFactory;
 import frc.robot.joysticks.Role;
 import frc.robot.joysticks.XBoxJoystick;
 import frc.robot.sensors.DistanceSensorGroup;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Collector;
 import frc.robot.subsystems.DriveLine;
 import frc.robot.subsystems.Lighting;
@@ -68,6 +70,7 @@ public class RobotContainer {
     private final LimeLight limelight = new LimeLight();
     private final Tube tube = new Tube(distanceSensors);
     private final Turret turret = new Turret();
+    private final Climber climber = new Climber();
     private final DriveWithJoystick driveWithJoystickCommand = new DriveWithJoystick(abstractJoystickLeft, driveLine);
         //private final ControlTurretWithLimelight controlTurretWithLimelightCommand = new ControlTurretWithLimelight(turret, limelight);
     
@@ -79,8 +82,11 @@ public class RobotContainer {
         configureButtonBindings();
         driveLine.setDefaultCommand(driveWithJoystickCommand);
         tube.setDefaultCommand(new OptimizeTube(tube, lighting));
+        
         turret.setDefaultCommand(new ControlTurretWithJoystick(turret, abstractJoystickRight));
-        //lighting.setDefaultCommand(new InstantCommand(lighting::green, lighting));
+        //turret.setDefaultCommand(new ControlTurretWithLimelight(turret, limelight));
+        
+                //lighting.setDefaultCommand(new InstantCommand(lighting::green, lighting));
 
         intializeSmartDashBoard();
     }
@@ -175,8 +181,41 @@ public class RobotContainer {
              ))       
             .whenReleased(new ParallelCommandGroup(
                     new InstantCommand(tube::stop, tube),
-                     new InstantCommand(collector::stop, collector)));
-    }
+                                                new InstantCommand(collector::stop, collector)));
+                // climb - deploy - PUT COLLECTOR DOWN, UNTESTED
+        /*
+        new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_6)
+                .whenPressed(new SequentialCommandGroup(
+                    new DeployCollector(collector, Value.kForward).withTimeout(0.12),
+                    new InstantCommand(climber::deployUp, climber)))
+                .whenReleased(new InstantCommand(climber::stopDeploy, climber));
+
+        new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_7)
+                .whenPressed(new SequentialCommandGroup(
+                    new DeployCollector(collector, Value.kForward).withTimeout(0.12),
+                    new InstantCommand(climber::deployDown, climber)))
+                                .whenReleased(new InstantCommand(climber::stopDeploy, climber));
+                */
+        
+        // OG - tested 
+        
+        new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_6)
+            .whenPressed(new InstantCommand(climber::deployUp, climber))
+                                .whenReleased(new InstantCommand(climber::stopDeploy, climber));
+
+        new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_7)
+            .whenPressed(new InstantCommand(climber::deployDown, climber))
+                                .whenReleased(new InstantCommand(climber::stopDeploy, climber));
+
+
+        // climb - wench - TESTED
+        new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_10)
+             .whenPressed(new InstantCommand(climber::climb, climber))
+                                .whenReleased(new InstantCommand(climber::stop, climber));
+    
+        new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_9)
+                                .toggleWhenPressed(new ControlTurretWithLimelight(turret, limelight));
+       }
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
