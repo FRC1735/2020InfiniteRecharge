@@ -213,10 +213,6 @@ public class RobotContainer {
              .whenPressed(new InstantCommand(climber::climb, climber))
                                 .whenReleased(new InstantCommand(climber::stop, climber));
 
-        new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_10)
-             .whenPressed(new InstantCommand(climber::climb, climber))
-                                .whenReleased(new InstantCommand(climber::stop, climber));
-    
         new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_9)
                                 .toggleWhenPressed(new ControlTurretWithLimelight(turret, limelight));
        }
