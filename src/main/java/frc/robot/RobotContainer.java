@@ -80,13 +80,13 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the button bindings
         configureButtonBindings();
+        
+        // default commands
         driveLine.setDefaultCommand(driveWithJoystickCommand);
         tube.setDefaultCommand(new OptimizeTube(tube, lighting));
-        
         turret.setDefaultCommand(new ControlTurretWithJoystick(turret, abstractJoystickRight));
         //turret.setDefaultCommand(new ControlTurretWithLimelight(turret, limelight));
-        
-                //lighting.setDefaultCommand(new InstantCommand(lighting::green, lighting));
+        //lighting.setDefaultCommand(new InstantCommand(lighting::green, lighting));
 
         intializeSmartDashBoard();
     }

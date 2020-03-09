@@ -19,8 +19,8 @@ public class Turret extends SubsystemBase {
   private WPI_TalonSRX motor;
   private AnalogPotentiometer pot;
   
-  private double LEFT_LIMIT = .4;
-  private double RIGHT_LIMIT = .6; 
+  private double LEFT_LIMIT = .8;
+  private double RIGHT_LIMIT = .3; 
 
   /**
    * Creates a new Turret.
@@ -37,25 +37,30 @@ public class Turret extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Turret Encoder", motor.getSelectedSensorPosition());
     SmartDashboard.putNumber("Turret Pot", pot.get());
-    final double position = pot.get();
-    if (position < LEFT_LIMIT || position > RIGHT_LIMIT) {
-      motor.stopMotor();
-    }
-
   }
-
+    
   public void set(double speed) {
     final double position = pot.get();
-    if (position > LEFT_LIMIT && position < RIGHT_LIMIT) {
-      motor.set(ControlMode.PercentOutput, speed);
+    
+    // left is positive, right is negative
+    if (speed > 0 && position <= LEFT_LIMIT) { // left
+      motor.set(speed);
+      return;
     }
+    
+    if (speed < 0 && position >= RIGHT_LIMIT) {
+      motor.set(speed);
+      return;
+    }
+    
+    motor.stopMotor();
   }
 
   public double getEncoderValue() {
     return motor.getSelectedSensorPosition();
   }
   
-  public void stop() {
+  public void stop() { 
     motor.set(ControlMode.PercentOutput, 0);
   }
 }
