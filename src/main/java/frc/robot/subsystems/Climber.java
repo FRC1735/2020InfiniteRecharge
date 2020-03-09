@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -18,14 +19,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climber extends SubsystemBase {
   private WPI_VictorSPX deployer;
-  private CANSparkMax wench;
+  private TalonFX wench;
   
   /**
    * Creates a new Climber.
    */
   public Climber() {
     this.deployer = new WPI_VictorSPX(11); // TODO
-    this.wench = new CANSparkMax(10, MotorType.kBrushless); // TODO - verify motor type
+    this.wench = new TalonFX(10); // TODO - verify motor type
 
     //this.deployer.setNeutralMode(NeutralMode.Brake);
     //this.wench.setNeutralMode(NeutralMode.Brake);
@@ -37,7 +38,7 @@ public class Climber extends SubsystemBase {
   }
 
   public void climb() {
-    wench.set(-1);
+    wench.set(ControlMode.PercentOutput,-1);
   }
 
   public void deployUp() {
@@ -53,11 +54,11 @@ public class Climber extends SubsystemBase {
   }
 
   public void stopClimb() {
-    wench.stopMotor();
+    wench.set(ControlMode.PercentOutput, 0);
   }
 
   public void stop() {
-    wench.stopMotor();
+    stopClimb();
     deployer.stopMotor();
   }
 }
