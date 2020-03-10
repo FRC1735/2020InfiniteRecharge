@@ -42,6 +42,10 @@ public class Lighting extends SubsystemBase {
     led.stop();
   }
 
+  public void clear() {
+    setColor(0, 0, 0);
+  }
+
   public void blue() {
    setColor(0, 0, 255);
   }
@@ -54,10 +58,77 @@ public class Lighting extends SubsystemBase {
     setColor(0, 255, 0);
   }
 
+
+  // reflectTube(true, true, true, false, false)
+  // reflectTube(true, false, false, false, false)
+  public void reflectTube(boolean a, boolean b, boolean c, boolean d, boolean e) {
+    if (a == true) {
+      setColorSection(0, 7, 0, 255, 0);
+      setColorSection(63, 7, 0, 255, 0);
+    } else {
+      setColorSection(0, 7, 0, 0, 0);
+      setColorSection(56, 7, 0, 0, 0);
+    }
+    if (b == true) {
+      setColorSection(7, 7, 0, 0, 255);
+      setColorSection(49, 7, 0, 0, 255);
+    } else {
+      setColorSection(7, 7, 0, 0, 0);
+      setColorSection(42, 7, 0, 0, 0);
+    }
+    if (c == true) {
+      setColorSection(14, 7, 255, 255, 0);
+      setColorSection(35, 7, 255, 255, 0);
+    } else {
+      setColorSection(14, 7, 0, 0, 0);
+      setColorSection(28, 7, 0, 0, 0);
+    }
+    if (d == true) {
+      setColorSection(21, 7, 255, 0, 0);
+      setColorSection(21, 7, 255, 0, 0);
+    } else {
+      setColorSection(21, 7, 0, 0, 0);
+      setColorSection(14, 7, 0, 0, 0);
+    }
+    if (e == true) {
+      setColorSection(28, 7, 0, 255, 0);
+      setColorSection(7, 7, 0, 255, 0);
+    } else {
+      setColorSection(28, 7, 0, 0, 0);
+      setColorSection(0, 7, 0, 0, 0);
+    }
+  }
+  
+  // TODO - modify this to set LEDs on both sides
+  // setColorSection(0, 5, 0, 255, 0);
+  public void setColorSection(int start, int length, int r, int g, int b) {
+    
+    for (int i = start; i < start + length ;i++) {
+      buffer.setRGB(i, r, g, b);
+    }
+    led.setData(buffer);
+  }
+  
   public void setColor(int r, int g, int b) {
     for (int i = 0; i < buffer.getLength(); i++) {
       buffer.setRGB(i, r, g, b);
     }
     led.setData(buffer);
+  }
+
+  public void setLEDColor(int position, int r, int g, int b) {
+
+    // 0 -> 69
+    // 1 -> 68
+    // 2 -> 67
+    // reflect left with right
+    buffer.setRGB(position, r, g, b);
+    buffer.setRGB(getLeftFromRight(position), r, g, b);
+    led.setData(buffer);
+
+  }
+  
+  public int getLeftFromRight(int x) {
+    return ( -x + 69);
   }
 }
