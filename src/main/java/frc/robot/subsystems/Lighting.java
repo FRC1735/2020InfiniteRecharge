@@ -9,17 +9,20 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Lighting extends SubsystemBase {
  private AddressableLED led; 
  private AddressableLEDBuffer buffer; 
  private int LED_COUNT = 70;
- 
+  private DriverStation driverStation;
   /**
    * Creates a new Lighting.
    */
   public Lighting() {
+    driverStation = DriverStation.getInstance();
+
     led = new AddressableLED(9);
     buffer = new AddressableLEDBuffer(LED_COUNT);
     led.setLength(buffer.getLength());
@@ -31,7 +34,18 @@ public class Lighting extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-  }
+
+    double matchTime = driverStation.getMatchTime();
+
+    if (!driverStation.isAutonomous() && (matchTime < 10) && (matchTime > 7.9)) {
+      //if (Math.floor(matchTime * 10) % 10 > 5) {
+       setColor(255, 0, 0);
+      
+      }
+    }
+  
+    
+  
 
   public void on() {
     led.start();

@@ -82,7 +82,7 @@ public class RobotContainer {
         // Configure the button bindings
         configureButtonBindings();
         driveLine.setDefaultCommand(driveWithJoystickCommand);
-        //tube.setDefaultCommand(new OptimizeTube(tube, lighting));
+        tube.setDefaultCommand(new OptimizeTube(tube, lighting));
         
         turret.setDefaultCommand(new ControlTurretWithJoystick(turret, abstractJoystickRight));
         //turret.setDefaultCommand(new ControlTurretWithLimelight(turret, limelight));
