@@ -25,6 +25,7 @@ import frc.robot.commands.DeployCollector;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.DriveWithJoystick;
 import frc.robot.commands.OptimizeTube;
+import frc.robot.commands.ReflectTube;
 import frc.robot.commands.ShootOne;
 import frc.robot.commands.TubeUp;
 import frc.robot.joysticks.AbstractJoystick;
@@ -135,9 +136,11 @@ public class RobotContainer {
                 .whenPressed(new InstantCommand(limelight::ledOff, limelight));
 
                 /*
-        new JoystickButton(xBoxJoystick, XBoxJoystick.BUTTON_B)
+                new JoystickButton(xBoxJoystick, XBoxJoystick.BUTTON_B)
                 .whenPressed(new InstantCommand(collector::in, collector))
                 .whenReleased(new InstantCommand(collector::stop, collector));*/
+        new JoystickButton(xBoxJoystick, XBoxJoystick.BUTTON_BACK)
+                .whenPressed(new InstantCommand(lighting::clear, lighting));
     }
 
     private void initializeAttack3() {
@@ -215,6 +218,9 @@ public class RobotContainer {
 
         new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_9)
                                 .toggleWhenPressed(new ControlTurretWithLimelight(turret, limelight));
+
+        new JoystickButton(attack3Joystick, Attack3Joystick.BUTTON_8)
+                                .whenPressed(new ReflectTube(lighting));
        }
 
     /**
