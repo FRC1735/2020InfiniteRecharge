@@ -38,7 +38,7 @@ public class XBoxJoystick extends AbstractJoystick {
 
     @Override
     public double getSwivelStickX() {
-        return joystick.getRawAxis(R_AXIS_Y);
+        return joystick.getRawAxis(R_AXIS_X);
     }
 
     @Override

@@ -15,11 +15,19 @@ import frc.robot.subsystems.Turret;
 public class ControlTurretWithJoystick extends CommandBase {
   private Turret turret;
   private AbstractJoystick joystick;
-  public ControlTurretWithJoystick(Turret turret, AbstractJoystick joystick) {
+  private boolean useRightAnalog;
+  
+  public ControlTurretWithJoystick(Turret turret, AbstractJoystick joystick, boolean useRightAnalog) {
     addRequirements(turret);
     this.turret = turret;
     this.joystick = joystick;
+    this.useRightAnalog = useRightAnalog;  
   }
+
+  public ControlTurretWithJoystick(Turret turret, AbstractJoystick joystick) {
+    this(turret, joystick, false);
+  }
+  
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -28,8 +36,9 @@ public class ControlTurretWithJoystick extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double v = joystick.getX();
-    SmartDashboard.putNumber("attack x", v);
+      
+    double v = useRightAnalog ? joystick.getSwivelStickX() : joystick.getX();
+        SmartDashboard.putNumber("attack x", v);
     /*
     double encoderValue = turret.getEncoderValue();
 

@@ -43,12 +43,12 @@ public class Turret extends SubsystemBase {
     final double position = pot.get();
     
     // left is positive, right is negative
-    if (speed > 0 && position <= LEFT_LIMIT) { // left
+    if (speed > 0) { //} && position <= LEFT_LIMIT) { // left
       motor.set(speed);
       return;
     }
     
-    if (speed < 0 && position >= RIGHT_LIMIT) {
+    if (speed < 0 ){//&&) { //} position >= RIGHT_LIMIT) {
       motor.set(speed);
       return;
     }
