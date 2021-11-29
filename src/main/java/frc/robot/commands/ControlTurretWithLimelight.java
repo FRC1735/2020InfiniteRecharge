@@ -57,9 +57,9 @@ public class ControlTurretWithLimelight extends PIDCommand {
     this.limeLight = limeLight;
 
     if (Constants.TUNING_MODE) {
-      SmartDashboard.putNumber(Constants.SD_TURRET_PID_P, 0);
-      SmartDashboard.putNumber(Constants.SD_TURRET_PID_I, 0);
-      SmartDashboard.putNumber(Constants.SD_TURRET_PID_D, 0);
+      //SmartDashboard.putNumber(Constants.SD_TURRET_PID_P, 0);
+      //SmartDashboard.putNumber(Constants.SD_TURRET_PID_I, 0);
+      //SmartDashboard.putNumber(Constants.SD_TURRET_PID_D, 0);
     }
   }
   

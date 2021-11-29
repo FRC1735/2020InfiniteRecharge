@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Turret extends SubsystemBase {
   private WPI_TalonSRX motor;
-  private AnalogPotentiometer pot;
+ // private AnalogPotentiometer pot;
   
   private double LEFT_LIMIT = .8;
   private double RIGHT_LIMIT = .3; 
@@ -29,18 +29,18 @@ public class Turret extends SubsystemBase {
     motor = new WPI_TalonSRX(9);
     motor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
     motor.setSelectedSensorPosition(0);
-    pot = new AnalogPotentiometer(2); 
+    //pot = new AnalogPotentiometer(2); 
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Turret Encoder", motor.getSelectedSensorPosition());
-    SmartDashboard.putNumber("Turret Pot", pot.get());
+    //SmartDashboard.putNumber("Turret Pot", pot.get());
   }
     
   public void set(double speed) {
-    final double position = pot.get();
+    //final double position = pot.get();
     
     // left is positive, right is negative
     if (speed > 0) { //} && position <= LEFT_LIMIT) { // left

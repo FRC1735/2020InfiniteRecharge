@@ -75,7 +75,8 @@ public class Lighting extends SubsystemBase {
 
   // reflectTube(true, true, true, false, false)
   // reflectTube(true, false, false, false, false)
-  public void reflectTube(boolean a, boolean b, boolean c, boolean d, boolean e) {
+    public void reflectTube(boolean a, boolean b, boolean c, boolean d, boolean e) {
+        //System.out.println("JTA");
     if (a == true) {
       setColorSection(0, 7, 0, 255, 0);
       setColorSection(63, 7, 0, 255, 0);

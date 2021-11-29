@@ -25,9 +25,9 @@ public class DistanceSensorGroup {
         sensors = new ArrayList();
         sensors.add(new DistanceSensor(portA));
         sensors.add(new DistanceSensor(portB));
-        /*sensors.add(new DistanceSensor(portC));
+        sensors.add(new DistanceSensor(portC));
         sensors.add(new DistanceSensor(portD));
-        sensors.add(new DistanceSensor(portE));*/
+        sensors.add(new DistanceSensor(portE));
     }
 
     public List<Double> getDistances() {

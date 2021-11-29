@@ -86,7 +86,8 @@ public class RobotContainer {
         
         // default commands
         driveLine.setDefaultCommand(driveWithJoystickCommand);
-        tube.setDefaultCommand(new OptimizeTube(tube, lighting));
+        //
+        //tube.setDefaultCommand(new OptimizeTube(tube, lighting));
         if (singleDriver) {
             turret.setDefaultCommand(new ControlTurretWithJoystick(turret, abstractJoystickLeft, true));
         } else {
@@ -290,7 +291,9 @@ public class RobotContainer {
                                                 new SequentialCommandGroup(new WaitCommand(1), new TubeUp(tube))).withTimeout(3),
                                 new WaitCommand(autoDoNothingTimeChooser.getSelected()), 
                                 new DriveDistance(driveLine, -48).withTimeout(autoDriveTimeChooser.getSelected())
-                                ));
+        ));
+                                
+        SmartDashboard.putData("REFLECT", new ReflectTube(lighting));
         
                 /*
                 SmartDashboard.putNumber("Turn Angle", 90);
